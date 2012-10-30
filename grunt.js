@@ -36,7 +36,7 @@ module.exports = function(grunt) {
 		concat: {
 			dist: {
 				src: ['js/settings.js', 'js/lib/hogan-2.0.0.js', 'js/lib/csv2array.js', 'js/all.js'],
-				dest: 'build/barbershop.js'
+				dest: 'build/barbershop.jsx'
 			}
 		},
 
@@ -44,7 +44,7 @@ module.exports = function(grunt) {
 		copy: {
 			dist: {
 				files: {
-					"/Applications/Adobe\ Photoshop\ CS5/Presets/Scripts/barbershop.jsx": "build/barbershop.js"
+					"/Applications/Adobe\ Photoshop\ CS5/Presets/Scripts/barbershop.jsx": "build/barbershop.jsx"
 				}
 			}
 		}

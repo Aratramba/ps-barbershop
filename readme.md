@@ -1,4 +1,5 @@
-# Barbershop # #
+# Barbershop # # 
+Photoshop templating engine. Import json / csv data into your designs
 
 ## Simple install ##
 
