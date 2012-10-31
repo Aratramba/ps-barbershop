@@ -1,4 +1,4 @@
-# Barbershop #
+# Barbershop.js #
 Simple Photoshop templating engine. 
 
 Import json / csv data into your designs so you won't have to define them silly old Photoshop variables each and every time you want to import some dynamic data. Just type `{{ variable }}`, import a csv or json'ish file and you're good to go.
@@ -21,16 +21,18 @@ Run the script (`file › scripts › barbershop`) and a dialog should now appea
 
 Import your file and all your variables will be replaced by their matching variables.
 
+---
 
-## Contribute / modify ##
+#### Contribute / modify ####
 You must have [node](http://nodejs.org/), [npm](https://npmjs.org/), [coffeescript](http://www.coffeescript.org) and [grunt](http://www.gruntjs.com) installed. 
 
-### Install node modules ###
+##### Install node modules #####
 Run `npm link` to create a local install of the grunt packages.
 
-### Edit code ###
+##### Edit code #####
 Run `grunt` to continually compile coffeescript and move the .jsx file to the photoshop directory. Set the proper directory in the grunt.js file.
 
+---
 
-### Credits ###
+##### Credits #####
 Barbershop.js uses [Hogan](http://twitter.github.com/hogan.js/) for it's templating magic and [csv2array](http://www.speqmath.com/tutorials/csv2array/).
