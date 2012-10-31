@@ -1,7 +1,8 @@
 # Barbershop.js #
-Simple Photoshop templating engine. 
+## Simple Photoshop `{{templating}}` engine ##
 
-Import json / csv data into your designs so you won't have to define them silly old Photoshop variables each and every time you want to import some dynamic data. Just type `{{ variable }}`, import a csv or json'ish file and you're good to go.
+Import JSON / CSV data into your designs so you won't have to define them silly old Photoshop variables each and every time you want to import some dynamic data. Just type `{{ variable }}`, import a csv or json'ish file and you're good to go.
+
 
 ## Simple install ##
 
@@ -17,9 +18,9 @@ If you have copied the .jsx file to the right directory, the script should appea
 
 Create variables in the textlayers of your .psd by wrapping them in double curly brackets, like so: `{{variable}}`. You can use JSON here if you wish, so `{{object.object.variable}}` will work too.
 
-Run the script (`file › scripts › barbershop`) and a dialog should now appear.
+Run the script `file › scripts › barbershop` and a dialog should now appear where you can tweak some import settings.
 
-Import your file and all your variables will be replaced by their matching variables.
+Import your file and all your variables will be magically replaced by their matching variables.
 
 ---
 
