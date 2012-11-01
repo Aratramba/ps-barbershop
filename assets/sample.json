@@ -3,5 +3,5 @@
 		"firstname": "Arjen",
 		"lastname": "Scherff - de Water"
 	},
-	"textfield": "some\r\ntext"
+	"textfield": "some\ntext"
 }
