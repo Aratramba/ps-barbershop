@@ -1,26 +1,26 @@
-# Barbershop.js #
-## Simple Photoshop `{{templating}}` engine ##
+# Barbershop ##
+#### a simple Photoshop `{{ templating }}` engine####
 
-Import JSON / CSV data into your designs so you won't have to define them silly old Photoshop variables each and every time you want to import some dynamic data. Just type `{{ variable }}`, import a csv or json'ish file and you're good to go.
+Defining Photoshop variables and importing data sets can be quite a tedious task. Other than that you're quite limited in what you can achieve with them and your files get messy because of all the separate textlayers for your variables. Barbershop aims to solve this.
 
+Just type `{{ variable }}` wherever you want in your textlayers, import a csv or json'ish file and you're good to go.
 
 ## Simple install ##
 
-copy `build/barbershop.jsx` to your photoshop scripts folder.
+copy `build/barbershop.jsx` to your photoshop scripts folder:
 
-Windows: `C:\Program Files\Adobe\Adobe Photoshop CS5\Presets\Scripts` 
-
+Windows: `C:\Program Files\Adobe\Adobe Photoshop CS5\Presets\Scripts`   
 Mac OS: `Applications\Adobe Photoshop CS5\Presets\Scripts`
 
-If you have copied the .jsx file to the right directory, the script should appear in Photoshop (restart) under `file › scripts › barbershop`
+If you have copied the .jsx file to the right directory, the script should appear in Photoshop under `file › scripts › barbershop` when you have restarted it.
 
 ## Usage ##
 
-Create variables in the textlayers of your .psd by wrapping them in double curly brackets, like so: `{{variable}}`. You can use JSON here if you wish, so `{{object.object.variable}}` will work too.
+Create variables in the textlayers of your .psd by wrapping them in double curly brackets, like so: `{{variable}}`. You can use object notation here if you wish, so `{{object.object.key}}` will work too.
 
 Run the script `file › scripts › barbershop` and a dialog should now appear where you can tweak some import settings.
 
-Import your file and all your variables will be magically replaced by their matching variables.
+Import your file and all your variables will be magically replaced by their matching data.
 
 ---
 
