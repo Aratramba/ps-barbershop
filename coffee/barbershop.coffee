@@ -40,6 +40,6 @@ class Barbershop
     for layer in @textlayers
       if layer.kind is LayerKind.TEXT
         template = Hogan.compile(layer.textItem.contents)
-        rendered = template.render(json)
+        rendered = template.render(json).replace(/\n/g, '\r')
         if layer.textItem.contents isnt rendered
           layer.textItem.contents = rendered

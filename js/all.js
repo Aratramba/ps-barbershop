@@ -219,7 +219,7 @@ Barbershop = (function() {
       layer = _ref[_i];
       if (layer.kind === LayerKind.TEXT) {
         template = Hogan.compile(layer.textItem.contents);
-        rendered = template.render(json);
+        rendered = template.render(json).replace(/\n/g, '\r');
         if (layer.textItem.contents !== rendered) {
           _results.push(layer.textItem.contents = rendered);
         } else {
