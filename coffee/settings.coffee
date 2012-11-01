@@ -1,17 +1,17 @@
 settings = {
 	type: 'json',
 	csv_separator: ';',
-	duplicate: false,
+	duplicate: true,
 	samples:{
 		csv: """
 			name;textfield
-			Arjen;"some text"
+			Barbershop;"some text"
 			""",
 		json: """
 			{
 				"name": {
-					"firstname": "Arjen",
-					"lastname": "Scherff-de Water"
+					"firstname": "Barber",
+					"lastname": "Shop"
 				},
 				"textfield": "some text"
 			}

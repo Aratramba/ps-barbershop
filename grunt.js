@@ -44,7 +44,7 @@ module.exports = function(grunt) {
 		copy: {
 			dist: {
 				files: {
-					"/Applications/Adobe\ Photoshop\ CS5/Presets/Scripts/barbershop.jsx": "build/barbershop.jsx"
+					"/Applications/Adobe\ Photoshop\ CS3/Presets/Scripts/barbershop.jsx": "build/barbershop.jsx"
 				}
 			}
 		}
