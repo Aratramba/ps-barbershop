@@ -39,7 +39,37 @@ class Barbershop
 
     for layer in @textlayers
       if layer.kind is LayerKind.TEXT
-        template = Hogan.compile(layer.textItem.contents)
-        rendered = template.render(json).replace(/\n/g, '\r')
-        if layer.textItem.contents isnt rendered
-          layer.textItem.contents = rendered
+
+        # find tags, replace with values
+        contents = layer.textItem.contents.replace /\{\{([^}]+)\}\}/gi, (original, text) ->
+
+          # remove spaces
+          tag = text.replace(/\s+/gi, '')
+          
+          # quick resolve
+          if tag.indexOf('.') is -1
+            if typeof json[tag] is 'string'
+              return json[tag].replace(/\n/g, '\r')
+            return original
+
+          # object resolve
+          keys = tag.split('.')
+
+          # reference object
+          ref = json
+
+          # loop through keys
+          for key in keys
+            ref = ref[key] if ref[key]
+            
+          # if a string was found
+          if typeof ref is 'string'
+            return ref.replace(/\n/g, '\r')
+
+          # last resort, return original
+          return original
+
+
+        # replace content only if something changed
+        if contents isnt layer.textItem.contents
+          layer.textItem.contents = contents

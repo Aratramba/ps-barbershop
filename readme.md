@@ -32,8 +32,3 @@ Run `npm link` to create a local install of the grunt packages.
 
 ##### Edit code #####
 Run `grunt` to continually compile coffeescript and move the .jsx file to the photoshop directory. Set the proper directory in the grunt.js file.
-
----
-
-##### Credits #####
-Barbershop.js uses [Hogan](http://twitter.github.com/hogan.js/) for it's templating magic and [csv2array](http://www.speqmath.com/tutorials/csv2array/).

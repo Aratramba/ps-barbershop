@@ -7,7 +7,7 @@ class Dialog
     buttons = {}
 
     # create new dialog
-    dlg = new Window('dialog', 'copy/paste data here')
+    dlg = new Window('dialog', 'Barbershop')
     dlg.alignChildren = "left";
 
     # browse

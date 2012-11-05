@@ -34,7 +34,7 @@ Dialog = (function() {
     groups = {};
     fields = {};
     buttons = {};
-    dlg = new Window('dialog', 'copy/paste data here');
+    dlg = new Window('dialog', 'Barbershop');
     dlg.alignChildren = "left";
     group = dlg.add('group');
     fields.browse = group.add('edittext', {
@@ -211,17 +211,37 @@ Barbershop = (function() {
   };
 
   Barbershop.prototype.render = function(json) {
-    var layer, rendered, template, _i, _len, _ref, _results;
+    var contents, layer, _i, _len, _ref, _results;
     this.getTextLayers(app.activeDocument.layers);
     _ref = this.textlayers;
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       layer = _ref[_i];
       if (layer.kind === LayerKind.TEXT) {
-        template = Hogan.compile(layer.textItem.contents);
-        rendered = template.render(json).replace(/\n/g, '\r');
-        if (layer.textItem.contents !== rendered) {
-          _results.push(layer.textItem.contents = rendered);
+        contents = layer.textItem.contents.replace(/\{\{([^}]+)\}\}/gi, function(original, text) {
+          var key, keys, ref, tag, _j, _len1;
+          tag = text.replace(/\s+/gi, '');
+          if (tag.indexOf('.') === -1) {
+            if (typeof json[tag] === 'string') {
+              return json[tag].replace(/\n/g, '\r');
+            }
+            return original;
+          }
+          keys = tag.split('.');
+          ref = json;
+          for (_j = 0, _len1 = keys.length; _j < _len1; _j++) {
+            key = keys[_j];
+            if (ref[key]) {
+              ref = ref[key];
+            }
+          }
+          if (typeof ref === 'string') {
+            return ref.replace(/\n/g, '\r');
+          }
+          return original;
+        });
+        if (contents !== layer.textItem.contents) {
+          _results.push(layer.textItem.contents = contents);
         } else {
           _results.push(void 0);
         }
