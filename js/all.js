@@ -219,7 +219,7 @@ Barbershop = (function() {
       layer = _ref[_i];
       if (layer.kind === LayerKind.TEXT) {
         contents = layer.textItem.contents.replace(/\{\{([^}]+)\}\}/gi, function(original, text) {
-          var key, keys, ref, tag, _j, _len1;
+          var counter, key, keys, ref, tag, _j, _len1;
           tag = text.replace(/\s+/gi, '');
           if (tag.indexOf('.') === -1) {
             if (typeof json[tag] === 'string') {
@@ -229,13 +229,15 @@ Barbershop = (function() {
           }
           keys = tag.split('.');
           ref = json;
-          for (_j = 0, _len1 = keys.length; _j < _len1; _j++) {
-            key = keys[_j];
+          for (counter = _j = 0, _len1 = keys.length; _j < _len1; counter = ++_j) {
+            key = keys[counter];
             if (ref[key]) {
               ref = ref[key];
+            } else {
+              break;
             }
           }
-          if (typeof ref === 'string') {
+          if (typeof ref === 'string' && counter === keys.length) {
             return ref.replace(/\n/g, '\r');
           }
           return original;

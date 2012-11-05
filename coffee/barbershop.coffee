@@ -59,11 +59,19 @@ class Barbershop
           ref = json
 
           # loop through keys
-          for key in keys
-            ref = ref[key] if ref[key]
+          for key,counter in keys
+
+
+            # if a key was found
+            if ref[key]
+              ref = ref[key]
+
+            # break if no index was found
+            else
+              break
             
-          # if a string was found
-          if typeof ref is 'string'
+          # if a string was found + ensure it was the last key found
+          if typeof ref is 'string' and counter is keys.length
             return ref.replace(/\n/g, '\r')
 
           # last resort, return original
