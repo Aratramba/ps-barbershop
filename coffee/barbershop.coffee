@@ -1,6 +1,6 @@
 class Barbershop
 
-  init: (params) ->
+  constructor: (params) ->
 
     @textlayers = []
 

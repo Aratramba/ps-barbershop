@@ -1,2 +1,1 @@
-barbershop = new Barbershop()
-dialog = new Dialog(barbershop)
+dialog = new Dialog()

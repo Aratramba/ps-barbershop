@@ -1,6 +1,6 @@
 class Dialog
 
-  constructor: (@barbershop) ->
+  constructor: () ->
 
     groups = {}
     fields = {}
@@ -86,7 +86,7 @@ class Dialog
         type: @fields.type.selection.text,
         csv_separator: @fields.csv_separator.text
     }
-    @barbershop.init(values)
+    new Barbershop(values)
 
 
   browse: =>

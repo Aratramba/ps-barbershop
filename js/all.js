@@ -18,9 +18,7 @@ var Dialog,
 
 Dialog = (function() {
 
-  function Dialog(barbershop) {
-    var buttons, dlg, fields, group, groups;
-    this.barbershop = barbershop;
+  function Dialog() {
     this.insertCSV = __bind(this.insertCSV, this);
 
     this.insertJSON = __bind(this.insertJSON, this);
@@ -31,6 +29,7 @@ Dialog = (function() {
 
     this.changeType = __bind(this.changeType, this);
 
+    var buttons, dlg, fields, group, groups;
     groups = {};
     fields = {};
     buttons = {};
@@ -131,7 +130,7 @@ Dialog = (function() {
       type: this.fields.type.selection.text,
       csv_separator: this.fields.csv_separator.text
     };
-    return this.barbershop.init(values);
+    return new Barbershop(values);
   };
 
   Dialog.prototype.browse = function() {
@@ -176,9 +175,7 @@ var Barbershop;
 
 Barbershop = (function() {
 
-  function Barbershop() {}
-
-  Barbershop.prototype.init = function(params) {
+  function Barbershop(params) {
     var dict;
     this.textlayers = [];
     if (params.duplicate) {
@@ -189,9 +186,9 @@ Barbershop = (function() {
       this.render(dict);
     }
     if (params.type === 'json') {
-      return this.render(eval("(" + params.data + ")"));
+      this.render(eval("(" + params.data + ")"));
     }
-  };
+  }
 
   Barbershop.prototype.getTextLayers = function(layers) {
     var layer, _i, _len, _results;
@@ -258,8 +255,6 @@ Barbershop = (function() {
 
 })();
 
-var barbershop, dialog;
+var dialog;
 
-barbershop = new Barbershop();
-
-dialog = new Dialog(barbershop);
+dialog = new Dialog();
