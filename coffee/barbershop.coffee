@@ -8,14 +8,15 @@ class Barbershop
     if params.duplicate
       app.activeDocument.duplicate(params.docName)
 
-    # render csv data
+    # jsonify csv data
     if params.type is 'csv'
       dict = arrayToObject(csv2array(params.data, params.csv_separator))
-      @render(dict)
 
-    # render json data
+    # eval json
     if params.type is 'json'
-      @render(eval("(#{params.data})"))
+      dict = eval("(#{params.data})")
+
+    @render(dict)
 
 
   # find all text layers in document

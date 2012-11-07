@@ -183,11 +183,11 @@ Barbershop = (function() {
     }
     if (params.type === 'csv') {
       dict = arrayToObject(csv2array(params.data, params.csv_separator));
-      this.render(dict);
     }
     if (params.type === 'json') {
-      this.render(eval("(" + params.data + ")"));
+      dict = eval("(" + params.data + ")");
     }
+    this.render(dict);
   }
 
   Barbershop.prototype.getTextLayers = function(layers) {
