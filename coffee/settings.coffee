@@ -6,7 +6,7 @@ settings = {
 		csv: """
 			name;textfield
 			Barbershop;"some text"
-			"Barbershop II"; "some text II"
+			"Barbershop II";"some text II"
 			""",
 		json: """
 			{

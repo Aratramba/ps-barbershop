@@ -77,7 +77,7 @@ class Dialog
 
 
   close: =>
-    @dlg.close();
+    @dlg.close()
 
     values = {
         data: @fields.data.text,

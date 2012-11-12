@@ -5,7 +5,7 @@ settings = {
   csv_separator: ';',
   duplicate: true,
   samples: {
-    csv: "name;textfield\nBarbershop;\"some text\"\n\"Barbershop II\"; \"some text II\"",
+    csv: "name;textfield\nBarbershop;\"some text\"\n\"Barbershop II\";\"some text II\"",
     json: "{\n	\"name\": {\n		\"firstname\": \"Barber\",\n		\"lastname\": \"Shop\"\n	},\n	\"textfield\": \"some text\"\n}"
   }
 };
@@ -306,19 +306,34 @@ var Barbershop;
 Barbershop = (function() {
 
   function Barbershop(params) {
-    var dict;
-    this.textlayers = [];
-    if (params.duplicate) {
-      app.activeDocument.duplicate(params.docName);
-    }
-    if (params.type === 'csv') {
-      dict = arrayToObject(csv2array(params.data, params.csv_separator));
-    }
-    if (params.type === 'json') {
+    var arr, dict, row, _i, _len, _ref;
+    this.params = params;
+    this.doc = app.activeDocument;
+    if (this.params.type === 'json') {
       dict = eval("(" + params.data + ")");
+      this.render(dict);
     }
-    this.render(dict);
+    if (this.params.type === 'csv') {
+      arr = csv2array(this.params.data, this.params.csv_separator);
+      if (arr.length === 2) {
+        this.render(arrayToObject(arr));
+      } else {
+        if (confirm('Multiple rows detected. Proceed?')) {
+          _ref = arr.slice(1);
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            row = _ref[_i];
+            this.render(arrayToObject([arr[0], row]));
+          }
+        }
+      }
+    }
   }
+
+  Barbershop.prototype.duplicate = function() {
+    if (this.params.duplicate) {
+      return this.doc.duplicate(this.params.docName);
+    }
+  };
 
   Barbershop.prototype.getTextLayers = function(layers) {
     var layer, _i, _len, _results;
@@ -338,42 +353,44 @@ Barbershop = (function() {
   };
 
   Barbershop.prototype.render = function(json) {
-    var contents, layer, _i, _len, _ref, _results;
-    this.getTextLayers(app.activeDocument.layers);
+    /*
+        TODO: duplicating works, but multiple rows only get filled with the first rows' value
+    */
+
+    var contents, duplicate, layer, _i, _len, _ref, _results;
+    duplicate = this.duplicate();
+    this.textlayers = [];
+    this.getTextLayers(duplicate.layers);
     _ref = this.textlayers;
     _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       layer = _ref[_i];
-      if (layer.kind === LayerKind.TEXT) {
-        contents = layer.textItem.contents.replace(/\{\{([^}]+)\}\}/gi, function(original, text) {
-          var counter, key, keys, ref, tag, _j, _len1;
-          tag = text.replace(/\s+/gi, '');
-          if (tag.indexOf('.') === -1) {
-            if (typeof json[tag] === 'string') {
-              return json[tag].replace(/\n/g, '\r');
-            }
-            return original;
-          }
-          keys = tag.split('.');
-          ref = json;
-          for (counter = _j = 0, _len1 = keys.length; _j < _len1; counter = ++_j) {
-            key = keys[counter];
-            if (ref[key]) {
-              ref = ref[key];
-            } else {
-              break;
-            }
-          }
-          if (typeof ref === 'string' && counter === keys.length) {
-            return ref.replace(/\n/g, '\r');
+      contents = layer.textItem.contents.replace(/\{\{([^}]+)\}\}/gi, function(original, text) {
+        var counter, key, keys, ref, tag, _j, _len1;
+        tag = text.replace(/\s+/gi, '');
+        if (tag.indexOf('.') === -1) {
+          if (typeof json[tag] === 'string') {
+            return json[tag].replace(/\n/g, '\r');
           }
           return original;
-        });
-        if (contents !== layer.textItem.contents) {
-          _results.push(layer.textItem.contents = contents);
-        } else {
-          _results.push(void 0);
         }
+        keys = tag.split('.');
+        ref = json;
+        for (counter = _j = 0, _len1 = keys.length; _j < _len1; counter = ++_j) {
+          key = keys[counter];
+          if (ref[key]) {
+            ref = ref[key];
+          } else {
+            break;
+          }
+        }
+        if (typeof ref === 'string' && counter === keys.length) {
+          return ref.replace(/\n/g, '\r');
+        }
+        return original;
+      });
+      if (contents !== layer.textItem.contents) {
+        _results.push(layer.textItem.contents = contents);
       } else {
         _results.push(void 0);
       }
