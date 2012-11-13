@@ -175,20 +175,20 @@ var Barbershop;
 
 Barbershop = (function() {
 
-  function Barbershop(params) {
+  function Barbershop(input) {
     var arr, dict, row, _i, _len, _ref;
-    this.params = params;
-    this.doc = app.activeDocument;
-    if (this.params.type === 'json') {
-      dict = eval("(" + params.data + ")");
+    this.input = input;
+    this.template = app.activeDocument;
+    if (this.input.type === 'json') {
+      dict = eval("(" + this.input.data + ")");
       this.render(dict);
     }
-    if (this.params.type === 'csv') {
-      arr = csv2array(this.params.data, this.params.csv_separator);
+    if (this.input.type === 'csv') {
+      arr = csv2array(this.input.data, this.input.csv_separator);
       if (arr.length === 2) {
         this.render(arrayToObject(arr));
       } else {
-        if (confirm('Multiple rows detected. Proceed?')) {
+        if (confirm('Multiple rows detected. This will create a duplicate psd for each row. Proceed?')) {
           _ref = arr.slice(1);
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             row = _ref[_i];
@@ -198,12 +198,6 @@ Barbershop = (function() {
       }
     }
   }
-
-  Barbershop.prototype.duplicate = function() {
-    if (this.params.duplicate) {
-      return this.doc.duplicate(this.params.docName);
-    }
-  };
 
   Barbershop.prototype.getTextLayers = function(layers) {
     var layer, _i, _len, _results;
@@ -223,16 +217,13 @@ Barbershop = (function() {
   };
 
   Barbershop.prototype.render = function(json) {
-    /*
-        TODO: duplicating works, but multiple rows only get filled with the first rows' value
-    */
-
-    var contents, duplicate, layer, _i, _len, _ref, _results;
-    duplicate = this.duplicate();
+    var contents, layer, _i, _len, _ref;
+    if (this.input.duplicate) {
+      this.template.duplicate(this.input.docName);
+    }
     this.textlayers = [];
-    this.getTextLayers(duplicate.layers);
+    this.getTextLayers(app.activeDocument.layers);
     _ref = this.textlayers;
-    _results = [];
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       layer = _ref[_i];
       contents = layer.textItem.contents.replace(/\{\{([^}]+)\}\}/gi, function(original, text) {
@@ -260,12 +251,10 @@ Barbershop = (function() {
         return original;
       });
       if (contents !== layer.textItem.contents) {
-        _results.push(layer.textItem.contents = contents);
-      } else {
-        _results.push(void 0);
+        layer.textItem.contents = contents;
       }
     }
-    return _results;
+    return app.activeDocument = this.template;
   };
 
   return Barbershop;

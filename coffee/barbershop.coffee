@@ -1,19 +1,19 @@
 class Barbershop
 
-  constructor: (@params) ->
+  constructor: (@input) ->
 
-    @doc = app.activeDocument
+    @template = app.activeDocument
 
     # eval JSON
-    if @params.type is 'json'
-      dict = eval("(#{params.data})")
+    if @input.type is 'json'
+      dict = eval("(#{@input.data})")
       @render(dict)
 
 
     # jsonify CSV data
-    if @params.type is 'csv'
+    if @input.type is 'csv'
 
-      arr = csv2array(@params.data, @params.csv_separator)
+      arr = csv2array(@input.data, @input.csv_separator)
 
       # if just 1 row
       if arr.length is 2
@@ -22,18 +22,11 @@ class Barbershop
       # if multiple rows
       else
 
-        # check permission
-        if confirm('Multiple rows detected. Proceed?')
+        # double check if this is what we want
+        if confirm('Multiple rows detected. This will create a duplicate psd for each row. Proceed?')
 
           # render all rows
           @render(arrayToObject([arr[0], row])) for row in arr.slice(1)
-
-
-
-  # duplicate document
-  duplicate: () -> 
-    if @params.duplicate
-      @doc.duplicate(@params.docName)
 
 
 
@@ -55,14 +48,13 @@ class Barbershop
 
   # render all text layers
   render: (json) ->
+    
+    # duplicate
+    @template.duplicate(@input.docName) if @input.duplicate
 
-    ###
-    TODO: duplicating works, but multiple rows only get filled with the first rows' value
-    ###
-    duplicate = @duplicate()
-
+    # gather all text layers
     @textlayers = []
-    @getTextLayers(duplicate.layers)
+    @getTextLayers(app.activeDocument.layers)
 
     # loop through all textlaters
     for layer in @textlayers
@@ -107,3 +99,6 @@ class Barbershop
       # replace content only if something changed
       if contents isnt layer.textItem.contents
         layer.textItem.contents = contents
+
+    # focus on template
+    app.activeDocument = @template
