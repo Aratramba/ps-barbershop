@@ -2,6 +2,8 @@ class Dialog
 
   constructor: () ->
 
+    return if not app.documents.length
+
     groups = {}
     fields = {}
     buttons = {}

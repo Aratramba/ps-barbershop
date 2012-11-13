@@ -160,6 +160,9 @@ Dialog = (function() {
     this.changeType = __bind(this.changeType, this);
 
     var buttons, dlg, fields, group, groups;
+    if (!app.documents.length) {
+      return;
+    }
     groups = {};
     fields = {};
     buttons = {};
