@@ -7,7 +7,7 @@ class Barbershop
     # eval JSON
     if @input.type is 'json'
       dict = eval("(#{@input.data})")
-      @render(dict)
+      @prepare(dict)
 
 
     # jsonify CSV data
@@ -17,7 +17,7 @@ class Barbershop
 
       # if just 1 row
       if arr.length is 2
-        @render(arrayToObject(arr))
+        @prepare(arrayToObject(arr))
 
       # if multiple rows
       else
@@ -26,7 +26,7 @@ class Barbershop
         if confirm('Multiple rows detected. This will create a duplicate psd for each row. Proceed?')
 
           # render all rows
-          @render(arrayToObject([arr[0], row])) for row in arr.slice(1)
+          @prepare(arrayToObject([arr[0], row])) for row in arr.slice(1)
 
 
 
@@ -46,12 +46,20 @@ class Barbershop
 
 
 
-  # render all text layers
-  render: (json) ->
-    
+  # prepare document
+  prepare: (json) ->
+
     # duplicate
     @template.duplicate(@input.docName) if @input.duplicate
 
+    # suspend history
+    app.activeDocument.suspendHistory("Barbershop magic", "this.render(json)")
+
+
+
+  # render all text layers
+  render: (json) ->
+    
     # gather all text layers
     @textlayers = []
     @getTextLayers(app.activeDocument.layers)

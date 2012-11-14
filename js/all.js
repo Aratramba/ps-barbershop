@@ -184,18 +184,18 @@ Barbershop = (function() {
     this.template = app.activeDocument;
     if (this.input.type === 'json') {
       dict = eval("(" + this.input.data + ")");
-      this.render(dict);
+      this.prepare(dict);
     }
     if (this.input.type === 'csv') {
       arr = csv2array(this.input.data, this.input.csv_separator);
       if (arr.length === 2) {
-        this.render(arrayToObject(arr));
+        this.prepare(arrayToObject(arr));
       } else {
         if (confirm('Multiple rows detected. This will create a duplicate psd for each row. Proceed?')) {
           _ref = arr.slice(1);
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             row = _ref[_i];
-            this.render(arrayToObject([arr[0], row]));
+            this.prepare(arrayToObject([arr[0], row]));
           }
         }
       }
@@ -219,11 +219,15 @@ Barbershop = (function() {
     return _results;
   };
 
-  Barbershop.prototype.render = function(json) {
-    var contents, layer, _i, _len, _ref;
+  Barbershop.prototype.prepare = function(json) {
     if (this.input.duplicate) {
       this.template.duplicate(this.input.docName);
     }
+    return app.activeDocument.suspendHistory("Barbershop magic", "this.render(json)");
+  };
+
+  Barbershop.prototype.render = function(json) {
+    var contents, layer, _i, _len, _ref;
     this.textlayers = [];
     this.getTextLayers(app.activeDocument.layers);
     _ref = this.textlayers;
