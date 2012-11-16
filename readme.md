@@ -3,7 +3,9 @@
 
 Defining Photoshop variables and importing data sets can be quite a tedious task. Other than that you're quite limited in what you can achieve with them and your files get messy because of all the separate textlayers for your variables. Barbershop aims to solve this.
 
-Say you have to deliver good-looking website statistics reports every week ‹as I do›, and you're a little lazy ‹uhuh›, then this is probably the right script for you.
+![](https://raw.github.com/EightMedia/ps-barbershop/master/assets/example.png)
+
+Say you have to deliver good-looking website statistics reports every week ‹as I do›, and you're a little lazy ‹uhuh›, this is probably the right Photoshop script for you.
 
 Just type `{{ variable }}` wherever you want inside your textlayers, import a csv or json'ish file and you're good to go. Run the script ([create a shortcut](http://help.adobe.com/en_US/photoshop/cs/using/WSfd1234e1c4b69f30ea53e41001031ab64-7448a.html#WSA72EC22F-E602-4fa7-B236-401CCDD3DF1Aa) while you're at it) and start importing you're data.
 
