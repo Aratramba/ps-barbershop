@@ -3,7 +3,6 @@ module.exports = function(grunt) {
 	// run `npm link` first to install packages
 	grunt.loadNpmTasks('grunt-contrib-coffee');
 	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-concat');
 
 	grunt.initConfig({
 

@@ -9,6 +9,7 @@ settings = {
     json: "{\n	\"name\": {\n		\"firstname\": \"Barber\",\n		\"lastname\": \"Shop\"\n	},\n	\"textfield\": \"some text\"\n}"
   }
 };
+
 /**
  * Convert data in CSV (comma separated value) format to a javascript array.
  *
@@ -128,7 +129,8 @@ function csv2array(data, delimeter) {
   }  
   
   return array;
-}var arrayToObject;
+}
+var arrayToObject;
 
 arrayToObject = function(arr) {
   var dict, key, val, _i, _len, _ref;

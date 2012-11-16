@@ -5,8 +5,7 @@
   "dependencies": {},
   "devDependencies": {
       "grunt-contrib-coffee": "0.3.x",
-      "grunt-contrib-copy": "0.3.x",
-      "grunt-concat": "0.1.x"
+      "grunt-contrib-copy": "0.3.x"
   },
   "engines": {
     "node": "0.8.x",
