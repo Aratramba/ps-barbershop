@@ -85,6 +85,13 @@ Dialog = (function() {
       width: 80,
       height: 25
     }, settings.csv_separator);
+    group.add('statictext', void 0, 'String delimiter:');
+    fields.string_delimiter = group.add('edittext', {
+      x: 240,
+      y: 300,
+      width: 80,
+      height: 25
+    }, settings.string_delimiter);
     group = dlg.add('group');
     group.add('statictext', {
       x: 0,
@@ -131,7 +138,8 @@ Dialog = (function() {
       duplicate: this.fields.duplicate.value,
       docName: this.fields.duplicate_name.text,
       type: this.fields.type.selection.text,
-      csv_separator: this.fields.csv_separator.text
+      csv_separator: this.fields.csv_separator.text,
+      string_delimiter: this.fields.string_delimiter.text
     };
     return new Barbershop(values);
   };
@@ -187,7 +195,7 @@ Barbershop = (function() {
       this.prepare(dict);
     }
     if (this.input.type === 'csv') {
-      arr = csv2array(this.input.data, this.input.csv_separator);
+      arr = csv2array(this.input.data, this.input.csv_separator, this.input.string_delimiter);
       if (arr.length === 2) {
         this.prepare(arrayToObject(arr));
       } else {

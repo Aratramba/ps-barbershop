@@ -41,6 +41,9 @@ class Dialog
     group.add('statictext', undefined, 'Separator:')
     fields.csv_separator = group.add('edittext', { x: 140, y: 300, width: 80, height: 25 }, settings.csv_separator)
 
+    group.add('statictext', undefined, 'String delimiter:')
+    fields.string_delimiter = group.add('edittext', { x: 240, y: 300, width: 80, height: 25 }, settings.string_delimiter)
+
     # duplicate document
     group = dlg.add('group')
     group.add('statictext', { x: 0, y: 0, width: 140, height: 25 }, 'Document name:')
@@ -86,7 +89,8 @@ class Dialog
         duplicate: @fields.duplicate.value,
         docName: @fields.duplicate_name.text,
         type: @fields.type.selection.text,
-        csv_separator: @fields.csv_separator.text
+        csv_separator: @fields.csv_separator.text,
+        string_delimiter: @fields.string_delimiter.text
     }
     new Barbershop(values)
 

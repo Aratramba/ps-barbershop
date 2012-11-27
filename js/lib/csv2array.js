@@ -17,19 +17,24 @@
  *  
  * Author: Jos de Jong, 2010
  * 
- * @param {string} data      The data in CSV format.
- * @param {string} delimeter [optional] a custom delimeter. Comma ',' by default
- *                           The Delimeter must be a single character.
- * @return {Array} array     A two dimensional array containing the data
- * @throw {String} error     The method throws an error when there is an
- *                           error in the provided data.
+ * @param {string} data             The data in CSV format.
+ * @param {string} delimeter        [optional] a custom delimeter. Comma ',' by default
+ *                                  The Delimeter must be a single character.
+ * @param {string} string_delimiter defaults to ""
+ * @return {Array} array            A two dimensional array containing the data
+ * @throw {String} error            The method throws an error when there is an
+ *                                  error in the provided data.
  */ 
-function csv2array(data, delimeter) {
+function csv2array(data, delimeter, string_delimiter) {
   // Retrieve the delimeter
   if (delimeter == undefined) 
     delimeter = ',';
   if (delimeter && delimeter.length > 1)
     delimeter = ',';
+
+
+  if (string_delimiter === undefined)
+    string_delimiter = '\"';
 
   // initialize variables
   var newline = '\n';
@@ -48,30 +53,30 @@ function csv2array(data, delimeter) {
     
     // get value
     var value = "";
-    if (c == '\"') {
+    if (c == string_delimiter) {
       // value enclosed by double-quotes
       c = data.charAt(++i);
       
       do {
-        if (c != '\"') {
+        if (c != string_delimiter) {
           // read a regular character and go to the next character
           value += c;
           c = data.charAt(++i);
         }
         
-        if (c == '\"') {
+        if (c == string_delimiter) {
           // check for escaped double-quote
           var cnext = data.charAt(i+1);
-          if (cnext == '\"') {
+          if (cnext == string_delimiter) {
             // this is an escaped double-quote. 
             // Add a double-quote to the value, and move two characters ahead.
-            value += '\"';
+            value += string_delimiter;
             i += 2;
             c = data.charAt(i);
           }
         }
       }
-      while (c != eof && c != '\"');
+      while (c != eof && c != string_delimiter);
       
       if (c == eof) {
         alert("Unexpected end of data, double-quote expected");

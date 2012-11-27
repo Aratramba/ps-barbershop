@@ -13,7 +13,7 @@ class Barbershop
     # jsonify CSV data
     if @input.type is 'csv'
 
-      arr = csv2array(@input.data, @input.csv_separator)
+      arr = csv2array(@input.data, @input.csv_separator, @input.string_delimiter)
 
       # if just 1 row
       if arr.length is 2
