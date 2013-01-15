@@ -80,6 +80,7 @@ function csv2array(data, delimeter, string_delimiter) {
       
       if (c == eof) {
         alert("Unexpected end of data, double-quote expected");
+        return false;
       }
 
       c = data.charAt(++i);
@@ -115,6 +116,7 @@ function csv2array(data, delimeter, string_delimiter) {
     else if (c != eof) {
       // unexpected character
       alert("Delimiter expected after character " + i);
+      return false;
     }
     
     // go to the next character
