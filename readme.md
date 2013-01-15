@@ -9,7 +9,7 @@ Say you have to deliver good-looking website statistics reports every week ‹as
 
 Just type `{{ variable }}` wherever you want inside your textlayers, import a csv or json'ish file and you're good to go. Run the script ([create a shortcut](http://help.adobe.com/en_US/photoshop/cs/using/WSfd1234e1c4b69f30ea53e41001031ab64-7448a.html#WSA72EC22F-E602-4fa7-B236-401CCDD3DF1Aa) while you're at it) and start importing you're data.
 
-## Simple install ##
+## Get started ##
 
 copy `build/barbershop.jsx` to your photoshop scripts folder:
 
