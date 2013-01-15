@@ -1,11 +1,14 @@
 {
   "name": "ps-barbershop",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Arjen Scherff-de Water",
   "dependencies": {},
   "devDependencies": {
-      "grunt-contrib-coffee": "0.3.x",
-      "grunt-contrib-copy": "0.3.x"
+      "grunt": "~0.4.0",
+      "grunt-contrib-watch": "~0.1.4",
+      "grunt-contrib-coffee": "git://github.com/gruntjs/grunt-contrib-coffee",
+      "grunt-contrib-copy": "git://github.com/ctalkington/grunt-contrib-copy",
+      "grunt-contrib-concat": "0.1.2rc5"
   },
   "engines": {
     "node": "0.8.x",

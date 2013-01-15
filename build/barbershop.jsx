@@ -2,8 +2,8 @@ var settings;
 
 settings = {
   type: 'json',
-  csv_separator: ';',
-  string_delimiter: '\"',
+  csv_separator: ',',
+  string_delimiter: "\'",
   duplicate: true,
   samples: {
     csv: "name;textfield\nBarbershop;\"some text\"\n\"Barbershop II\";\"some text II\"",
@@ -93,6 +93,7 @@ function csv2array(data, delimeter, string_delimiter) {
       
       if (c == eof) {
         alert("Unexpected end of data, double-quote expected");
+        return false;
       }
 
       c = data.charAt(++i);
@@ -128,6 +129,7 @@ function csv2array(data, delimeter, string_delimiter) {
     else if (c != eof) {
       // unexpected character
       alert("Delimiter expected after character " + i);
+      return false;
     }
     
     // go to the next character
@@ -334,6 +336,9 @@ Barbershop = (function() {
     }
     if (this.input.type === 'csv') {
       arr = csv2array(this.input.data, this.input.csv_separator, this.input.string_delimiter);
+      if (!array.length) {
+        return;
+      }
       if (arr.length === 2) {
         this.prepare(arrayToObject(arr));
       } else {
