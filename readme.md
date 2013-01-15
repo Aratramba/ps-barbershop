@@ -29,7 +29,7 @@ Import your file and all your variables will be magically replaced by their matc
 ---
 
 ## Known issues ##
-Make sure all content, other than a single word or number, is wrapped in "" (or whatever the string_delimiter setting says). You'll get an error saying something like `Delimiter expected after character x` if you don't.
+Make sure all content, other than a single word or number, is wrapped in "" (or whatever the string_delimiter setting is set to). You'll get an error saying something like `Delimiter expected after character x. (foo bar)` if you don't.
 
 ---
 
@@ -37,7 +37,7 @@ Make sure all content, other than a single word or number, is wrapped in "" (or 
 You must have [node](http://nodejs.org/), [npm](https://npmjs.org/), [coffeescript](http://www.coffeescript.org) and [grunt](http://www.gruntjs.com) installed. 
 
 ##### Install node modules #####
-Run `npm link` to create a local install of the grunt packages.
+Run `npm install` to create a local install of the grunt packages.
 
 ##### Edit code #####
-Run `grunt` to continually compile coffeescript and move the .jsx file to the photoshop directory. Set the proper directory in the grunt.js file.
+Run `grunt` to continually compile coffeescript and move the .jsx file to the photoshop directory. Set the proper directory in Grunfile.coffee file.
