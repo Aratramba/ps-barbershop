@@ -115,7 +115,7 @@ function csv2array(data, delimeter, string_delimiter) {
     }
     else if (c != eof) {
       // unexpected character
-      alert("Delimiter expected after character " + i);
+      alert("Delimiter expected after character "+ i +"( "+ data.substr(i - 15, 20) +")");
       return false;
     }
     

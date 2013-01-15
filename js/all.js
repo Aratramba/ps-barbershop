@@ -196,7 +196,7 @@ Barbershop = (function() {
     }
     if (this.input.type === 'csv') {
       arr = csv2array(this.input.data, this.input.csv_separator, this.input.string_delimiter);
-      if (!array.length) {
+      if (!arr) {
         return;
       }
       if (arr.length === 2) {

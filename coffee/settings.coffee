@@ -1,7 +1,7 @@
 settings = {
 	type: 'json',
-	csv_separator: ',',
-	string_delimiter: "\'",
+	csv_separator: ';',
+	string_delimiter: '\"',
 	duplicate: true,
 	samples:{
 		csv: """

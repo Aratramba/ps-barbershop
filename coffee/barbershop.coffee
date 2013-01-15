@@ -15,7 +15,7 @@ class Barbershop
 
       arr = csv2array(@input.data, @input.csv_separator, @input.string_delimiter)
 
-      return if not array.length
+      return if not arr
 
       # if just 1 row
       if arr.length is 2

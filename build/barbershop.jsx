@@ -2,8 +2,8 @@ var settings;
 
 settings = {
   type: 'json',
-  csv_separator: ',',
-  string_delimiter: "\'",
+  csv_separator: ';',
+  string_delimiter: '\"',
   duplicate: true,
   samples: {
     csv: "name;textfield\nBarbershop;\"some text\"\n\"Barbershop II\";\"some text II\"",
@@ -128,7 +128,7 @@ function csv2array(data, delimeter, string_delimiter) {
     }
     else if (c != eof) {
       // unexpected character
-      alert("Delimiter expected after character " + i);
+      alert("Delimiter expected after character "+ i +"( "+ data.substr(i - 15, 20) +")");
       return false;
     }
     
@@ -336,7 +336,7 @@ Barbershop = (function() {
     }
     if (this.input.type === 'csv') {
       arr = csv2array(this.input.data, this.input.csv_separator, this.input.string_delimiter);
-      if (!array.length) {
+      if (!arr) {
         return;
       }
       if (arr.length === 2) {
