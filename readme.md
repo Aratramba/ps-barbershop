@@ -14,14 +14,11 @@ copy `build/barbershop.jsx` to your Photoshop scripts folder:
 Windows: `C:\Program Files\Adobe\Adobe Photoshop CS5\Presets\Scripts`   
 Mac OS: `Applications\Adobe Photoshop CS5\Presets\Scripts`
 
-#### 2. Open script ####
-If you have copied the .jsx file to the right directory, the script should appear in Photoshop under `file › scripts › barbershop` when you have restarted it.
-
 #### 3. Create variables ####
-Create variables in the textlayers of your .psd by wrapping them in double curly brackets, like so: `{{variable}}`. You can use object notation here if you wish, so `{{object.object.key}}` will work too (json only).
+Create variables in your textlayers by wrapping them in double curly brackets, like so: `{{variable}}`. You can use object notation here if you wish, so `{{object.object.key}}` will work too (json only).
 
-#### 4.Run the script ####
-Run the script `file › scripts › barbershop` and a dialog should now appear where you can tweak some import settings. Import your file and all your variables will be magically replaced by their matching data.
+#### 3.Run the script ####
+Restart Photoshop. Now run the script from the Photoshop menu under `file › scripts › barbershop`. A dialog should now appear where you can tweak some import settings. Import your file and all your variables will be magically replaced by their matching data.
 
 ---
 
