@@ -1,5 +1,5 @@
 # Barbershop ##
-#### a simple Photoshop `{{ templating }}` engine#### ####
+#### a simple Photoshop `{{ templating }}` engine ####
 
 So you want to import dynamic data into your psd's?
 
@@ -30,7 +30,11 @@ Defining Photoshops native variables and importing data sets can be quite a tedi
 ---
 
 ### Known issues ###
+##### CSV import error #####
 Make sure all content, other than a single word or number, is wrapped in "" (or whatever the string_delimiter setting is set to). You'll get an error saying something like `Delimiter expected after character x. (foo bar)` if you don't "wrap strings in quotes".
+
+##### Formatting removed #####
+Barbershop will reset font styles if your textlayer consists of multiple text formats (like different colors, fonts, sizes etc). As long as you have 'plain' text fields, you're fine.
 
 ---
 
