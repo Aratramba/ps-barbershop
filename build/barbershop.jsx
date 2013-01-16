@@ -339,7 +339,10 @@ Barbershop = (function() {
       if (!arr) {
         return;
       }
-      if (arr.length === 2) {
+      if (arr.length === 1) {
+        alert('Only one row detected. Make sure there is at least one row of column names and one row of data present.');
+        return;
+      } else if (arr.length === 2) {
         this.prepare(arrayToObject(arr));
       } else {
         if (confirm('Multiple rows detected. This will create a duplicate psd for each row. Proceed?')) {

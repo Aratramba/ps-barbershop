@@ -18,7 +18,12 @@ class Barbershop
       return if not arr
 
       # if just 1 row
-      if arr.length is 2
+      if arr.length is 1
+        alert('Only one row detected. Make sure there is at least one row of column names and one row of data present.')
+        return
+
+      # if just 2 rows
+      else if arr.length is 2
         @prepare(arrayToObject(arr))
 
       # if multiple rows
