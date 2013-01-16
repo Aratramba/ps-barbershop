@@ -14,11 +14,14 @@ Mac OS: `Applications\Adobe Photoshop CS5\Presets\Scripts`
 Create variables in your textlayers by wrapping them in double curly brackets, like so: `{{variable}}`. You can use object notation here if you wish, so `{{object.object.key}}` will work too (json only).
 
 #### 3. Run the script ####
-![](https://raw.github.com/EightMedia/ps-barbershop/master/assets/img/scripts-menu.jpg)
-
-Restart Photoshop. Now run the script from the Photoshop menu under `file › scripts › barbershop`. A dialog should now appear where you can tweak some import settings. Import your file and all your variables will be magically replaced by their matching data.
 
 ![](https://raw.github.com/EightMedia/ps-barbershop/master/assets/img/dialog.jpg)
+
+Restart Photoshop. 
+
+Now run the script from the Photoshop menu under `file › scripts › barbershop`.
+
+A dialog should now appear where you can tweak some import settings. Import your file and all your variables will be magically replaced by their matching data.
 
 ---
 
