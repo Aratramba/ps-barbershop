@@ -3,8 +3,6 @@
 
 ![](https://raw.github.com/EightMedia/ps-barbershop/master/assets/example.png)
 
-Just type `{{ variable }}` somewhere inside your textfields, import a csv or json'ish file and run the script to import your data.
-
 ## Getting started ##
 #### 1. Copy .jsx file ####
 copy `build/barbershop.jsx` to your Photoshop scripts folder:
