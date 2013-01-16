@@ -18,9 +18,9 @@ class Dialog
     fields.browse.enabled = false
     buttons.browse = group.add('button', undefined, 'browse')
 
-    group.add('statictext', undefined, 'insert sample')
-    buttons.sample_json = group.add('button', undefined, 'json')
-    buttons.sample_csv = group.add('button', undefined, 'csv')
+    #group.add('statictext', undefined, 'insert sample')
+    #buttons.sample_json = group.add('button', undefined, 'json')
+    #buttons.sample_csv = group.add('button', undefined, 'csv')
 
     # paste data
     fields.data = dlg.add('edittext', { x: 0, y: 0, width: 600, height: 300 }, undefined, { multiline: true, scrolling: true })
@@ -48,7 +48,7 @@ class Dialog
     group = dlg.add('group')
     group.add('statictext', { x: 0, y: 0, width: 140, height: 25 }, 'Document name:')
     fields.duplicate_name = group.add('edittext', { x: 140, y: 360, width: 100, height: 25 }, app.activeDocument.name)
-    fields.duplicate = group.add('checkbox', undefined, 'Duplicate window')
+    fields.duplicate = group.add('checkbox', undefined, 'Create duplicate')
     fields.duplicate.value = settings.duplicate
 
     # buttons
@@ -63,8 +63,9 @@ class Dialog
     # buttons
     buttons.submit.onClick = @close
     buttons.browse.onClick = @browse
-    buttons.sample_json.onClick = @insertJSON
-    buttons.sample_csv.onClick = @insertCSV
+
+    #buttons.sample_json.onClick = @insertJSON
+    #buttons.sample_csv.onClick = @insertCSV
 
     @changeType()
 
@@ -101,10 +102,10 @@ class Dialog
 
     # check existance
     if srcFile and srcFile.exists
-        json = srcFile.name.match(/\.json|.js$/i)
-        csv = srcFile.name.match(/\.csv$/i)
+        is_json = srcFile.name.match(/\.json|.js$/i)
+        is_csv = srcFile.name.match(/\.csv$/i)
 
-        if json or csv
+        if is_json or is_csv
             @fields.browse.text = "#{srcFile.path}/#{srcFile.name}"
 
             data = ''
@@ -117,8 +118,8 @@ class Dialog
             srcFile.close()
 
             # write data
-            @insertJSON(data) if json
-            @insertCSV(data) if csv
+            @insertJSON(data) if is_json
+            @insertCSV(data) if is_csv
 
         else
             @fields.data.text = 'unknown file format'

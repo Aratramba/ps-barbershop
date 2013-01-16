@@ -187,9 +187,6 @@ Dialog = (function() {
     }, '');
     fields.browse.enabled = false;
     buttons.browse = group.add('button', void 0, 'browse');
-    group.add('statictext', void 0, 'insert sample');
-    buttons.sample_json = group.add('button', void 0, 'json');
-    buttons.sample_csv = group.add('button', void 0, 'csv');
     fields.data = dlg.add('edittext', {
       x: 0,
       y: 0,
@@ -245,7 +242,7 @@ Dialog = (function() {
       width: 100,
       height: 25
     }, app.activeDocument.name);
-    fields.duplicate = group.add('checkbox', void 0, 'Duplicate window');
+    fields.duplicate = group.add('checkbox', void 0, 'Create duplicate');
     fields.duplicate.value = settings.duplicate;
     group = dlg.add('group');
     buttons.submit = group.add('button', void 0, 'OK');
@@ -255,8 +252,6 @@ Dialog = (function() {
     this.groups = groups;
     buttons.submit.onClick = this.close;
     buttons.browse.onClick = this.browse;
-    buttons.sample_json.onClick = this.insertJSON;
-    buttons.sample_csv.onClick = this.insertCSV;
     this.changeType();
     dlg.show();
   }
@@ -285,21 +280,21 @@ Dialog = (function() {
   };
 
   Dialog.prototype.browse = function() {
-    var csv, data, json, srcFile;
+    var data, is_csv, is_json, srcFile;
     srcFile = File.openDialog("Select the data file.");
     if (srcFile && srcFile.exists) {
-      json = srcFile.name.match(/\.json|.js$/i);
-      csv = srcFile.name.match(/\.csv$/i);
-      if (json || csv) {
+      is_json = srcFile.name.match(/\.json|.js$/i);
+      is_csv = srcFile.name.match(/\.csv$/i);
+      if (is_json || is_csv) {
         this.fields.browse.text = "" + srcFile.path + "/" + srcFile.name;
         data = '';
         srcFile.open("r");
         data = srcFile.read();
         srcFile.close();
-        if (json) {
+        if (is_json) {
           this.insertJSON(data);
         }
-        if (csv) {
+        if (is_csv) {
           return this.insertCSV(data);
         }
       } else {
