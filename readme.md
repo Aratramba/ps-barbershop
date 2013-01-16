@@ -1,4 +1,4 @@
-# Barbershop ## #
+# Barbershop ##
 #### So you want to import dynamic data into your psd's? ####
 
 ![](https://raw.github.com/EightMedia/ps-barbershop/master/assets/example.png)
