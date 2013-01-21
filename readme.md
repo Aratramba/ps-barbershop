@@ -30,12 +30,12 @@ You can import CSV or JSON files with Barbershop.
 ##### CSV ####
 CSV doesn't necessarily mean comma separated. Use commas, periods, semicolons or exclamation marks for all I care. Just make sure you set the right import setting for `separator` and `string delimiter` in the Photoshop dialog. Also don't forget to escape separator characters that should be interpreted as a cell values (e.g. value;"The semicolon (;) is a punctuation mark"; value).
 
-For every row Barbershop finds it will create a new .psd and fill it with all the rows' values.
-
 ```csv
 name,textfield,
 Barbershop,"some text",
 ```
+
+Multiple rows will create multiple psd's.
 
 ```csv
 name;textfield;
@@ -46,6 +46,8 @@ Barbershop;"some text";
 ##### JSON ####
 Any JSON'ish file will do really.
 
+You can use a plain Javascript object:
+
 ```javascript
 {
     "name": {
@@ -55,6 +57,8 @@ Any JSON'ish file will do really.
     "textfield": "some\ntext"
 }
 ```
+
+Or an array holding multiple objects. This will create multiple psd's.
 
 ```javascript
 [{
