@@ -24,6 +24,17 @@ Now run the script from the Photoshop menu under `file › scripts › barbersho
 A dialog should now appear where you can tweak some import settings. Import your file and all your variables will be magically replaced by their matching data.
 
 ---
+### Supported import formats ###
+You can import CSV or JSON files with Barbershop. 
+
+##### CSV ####
+CSV doesn't necessarily mean comma separated. Use commas, periods, semicolons or exclamation marks for all I care. Just make sure you set the right import setting for 'separator' and 'string delimiter' in the Photoshop dialog. Also don't forget to escape separator characters that should be interpreted as a cell values. (e.g. value;"The semicolon (;) is a punctuation mark"; value) 
+For every row Barbershop finds it will create a new .psd and fill it with all the rows' values.
+
+##### JON ####
+Any JSON'ish file will do really. 
+
+---
 
 ### Why use it? ###
 Defining Photoshops native variables and importing data sets can be quite a tedious task. Other than that you're very limited in what you can achieve with them. Plus your files get messy because of all the separate textlayers for your variables. Barbershop aims to simplify this process.
