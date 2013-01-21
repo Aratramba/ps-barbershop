@@ -32,7 +32,7 @@ CSV doesn't necessarily mean comma separated. Use commas, periods, semicolons or
 
 For every row Barbershop finds it will create a new .psd and fill it with all the rows' values.
 
-##### JON ####
+##### JSON ####
 Any JSON'ish file will do really. 
 
 ---
