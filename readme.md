@@ -98,7 +98,7 @@ When you use a script often consider [creating a shortcut](http://help.adobe.com
 ---
 
 #### Contribute ####
-You must have [node](http://nodejs.org/), [npm](https://npmjs.org/), [coffeescript](http://www.coffeescript.org) and [grunt](http://www.gruntjs.com) installed.
+You must have [node](http://nodejs.org/), [npm](https://npmjs.org/), and [grunt](https://github.com/gruntjs/grunt/wiki/Getting-started) installed.
 
 Run `npm install` to create a local install of the grunt packages.
 
