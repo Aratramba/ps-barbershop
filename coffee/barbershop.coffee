@@ -6,8 +6,24 @@ class Barbershop
 
     # eval JSON
     if @input.type is 'json'
-      dict = eval("(#{@input.data})")
-      @prepare(dict)
+      json = eval("(#{@input.data})")
+
+      # if it's json object
+      if not json.length
+        @prepare(json)
+
+      # if it's an array with just 1 object
+      else if json.length is 1
+        @prepare(obj[0])
+
+      # if it's an array with multiple objects
+      else
+      
+        # double check if this is what we want
+        if confirm('Multiple rows detected. This will create a duplicate psd for each row. Proceed?')
+
+          # render all rows
+          @prepare(obj) for obj in json
 
 
     # jsonify CSV data

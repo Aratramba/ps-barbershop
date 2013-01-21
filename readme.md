@@ -32,8 +32,45 @@ CSV doesn't necessarily mean comma separated. Use commas, periods, semicolons or
 
 For every row Barbershop finds it will create a new .psd and fill it with all the rows' values.
 
+```csv
+name,textfield,
+Barbershop,"some text",
+```
+
+```csv
+name;textfield;
+Barbershop;"some text";
+"Barbershop II";"some text II";
+```
+
 ##### JSON ####
-Any JSON'ish file will do really. 
+Any JSON'ish file will do really.
+
+```javascript
+{
+    "name": {
+        "firstname": "Barber",
+        "lastname": "Shop"
+    },
+    "textfield": "some\ntext"
+}
+```
+
+```javascript
+[{
+    "name": {
+        "firstname": "Barber",
+        "lastname": "Shop"
+    },
+    "textfield": "some\ntext"
+},{
+    "name": {
+        "firstname": "Barber",
+        "lastname": "Shop II"
+    },
+    "textfield": "some\ntext II"
+}]
+``` 
 
 ---
 

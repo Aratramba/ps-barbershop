@@ -1,0 +1,13 @@
+[{
+	"name": {
+		"firstname": "Barber",
+		"lastname": "Shop"
+	},
+	"textfield": "some\ntext"
+},{
+	"name": {
+		"firstname": "Barber",
+		"lastname": "Shop II"
+	},
+	"textfield": "some\ntext II"
+}]

@@ -322,12 +322,23 @@ var Barbershop;
 Barbershop = (function() {
 
   function Barbershop(input) {
-    var arr, dict, row, _i, _len, _ref;
+    var arr, json, obj, row, _i, _j, _len, _len1, _ref;
     this.input = input;
     this.template = app.activeDocument;
     if (this.input.type === 'json') {
-      dict = eval("(" + this.input.data + ")");
-      this.prepare(dict);
+      json = eval("(" + this.input.data + ")");
+      if (!json.length) {
+        this.prepare(json);
+      } else if (json.length === 1) {
+        this.prepare(obj[0]);
+      } else {
+        if (confirm('Multiple rows detected. This will create a duplicate psd for each row. Proceed?')) {
+          for (_i = 0, _len = json.length; _i < _len; _i++) {
+            obj = json[_i];
+            this.prepare(obj);
+          }
+        }
+      }
     }
     if (this.input.type === 'csv') {
       arr = csv2array(this.input.data, this.input.csv_separator, this.input.string_delimiter);
@@ -342,8 +353,8 @@ Barbershop = (function() {
       } else {
         if (confirm('Multiple rows detected. This will create a duplicate psd for each row. Proceed?')) {
           _ref = arr.slice(1);
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            row = _ref[_i];
+          for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
+            row = _ref[_j];
             this.prepare(arrayToObject([arr[0], row]));
           }
         }
