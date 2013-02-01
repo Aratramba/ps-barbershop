@@ -1,13 +1,18 @@
 [{
-	"name": {
-		"firstname": "Barber",
-		"lastname": "Shop"
-	},
-	"textfield": "some\ntext"
-},{
-	"name": {
-		"firstname": "Barber",
-		"lastname": "Shop II"
-	},
-	"textfield": "some\ntext II"
+	"layer": "layer1",
+	"layergroup": {
+		"layer": "layer2",
+		"layergroup": {
+			"layer": "layer3"
+		}
+	}
+},
+{
+	"layer": "layer1 II",
+	"layergroup": {
+		"layer": "layer2 II",
+		"layergroup": {
+			"layer": "layer3 II"
+		}
+	}
 }]
