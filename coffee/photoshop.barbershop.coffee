@@ -28,16 +28,20 @@ module.exports = class Barbershop.Photoshop extends Barbershop
 
 	collect: (layers) ->
 
+		# first time, get document layers
+		if not layers
+			layers = app.activeDocument.layers
+
 		# loop
-	    for layer in layers
+		for layer in layers
 
-	      # push text layers
-	      if layer.kind is LayerKind.TEXT
-	      	@collect(layer)
+			# push text layers
+			if layer.kind is LayerKind.TEXT
+				@textlayers.push(layer)
 
-	      # find text layers in layergroup
-	      if layer.typename is 'LayerSet'
-	      	@textlayers.push(layer.layers)
+			# find text layers in layergroup
+			if layer.typename is 'LayerSet' and layer.layers
+				@collect(layer.layers)
 
 
 
@@ -60,17 +64,13 @@ module.exports = class Barbershop.Photoshop extends Barbershop
 		@end()
 
 
+
 	#––––––––––––––––––––––––––––––––––––
 	# end
 	#––––––––––––––––––––––––––––––––––––
 
-	end: -> 
-
-		# focus on template
-    	app.activeDocument = @template
+	end: -> app.activeDocument = @template
 		
-
- 
 
 	#––––––––––––––––––––––––––––––––––––
 	# get template

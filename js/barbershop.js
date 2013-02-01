@@ -603,14 +603,17 @@ require.define("/photoshop.barbershop.coffee",function(require,module,exports,__
 
     Photoshop.prototype.collect = function(layers) {
       var layer, _i, _len, _results;
+      if (!layers) {
+        layers = app.activeDocument.layers;
+      }
       _results = [];
       for (_i = 0, _len = layers.length; _i < _len; _i++) {
         layer = layers[_i];
         if (layer.kind === LayerKind.TEXT) {
-          this.collect(layer);
+          this.textlayers.push(layer);
         }
-        if (layer.typename === 'LayerSet') {
-          _results.push(this.textlayers.push(layer.layers));
+        if (layer.typename === 'LayerSet' && layer.layers) {
+          _results.push(this.collect(layer.layers));
         } else {
           _results.push(void 0);
         }
@@ -732,14 +735,11 @@ require.define("/barbershop.coffee",function(require,module,exports,__dirname,__
       return this.render();
     };
 
-    Barbershop.prototype.render = function() {
-      this.textlayers = [];
-      this.collect(this.template);
-      return this.shave();
-    };
-
     Barbershop.prototype.collect = function(layers) {
       var layer, _i, _len, _results;
+      if (!(layers != null)) {
+        layers = this.template;
+      }
       _results = [];
       for (_i = 0, _len = layers.length; _i < _len; _i++) {
         layer = layers[_i];
@@ -750,6 +750,12 @@ require.define("/barbershop.coffee",function(require,module,exports,__dirname,__
         }
       }
       return _results;
+    };
+
+    Barbershop.prototype.render = function() {
+      this.textlayers = [];
+      this.collect();
+      return this.shave();
     };
 
     Barbershop.prototype.shave = function() {

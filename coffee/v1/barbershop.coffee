@@ -119,9 +119,11 @@ class Barbershop
           else
             break
           
+        @alert('foo')
         # if a string was found + ensure it was the last key found
         if typeof ref is 'string' and counter is keys.length
           return ref.replace(/\n/g, '\r')
+
 
         # last resort, return original
         return original

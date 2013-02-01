@@ -126,6 +126,27 @@ module.exports = class Barbershop
 
 
 	#––––––––––––––––––––––––––––––––––––
+	# recursively find all textlayers
+	#––––––––––––––––––––––––––––––––––––
+
+	collect: (layers) ->
+
+		layers = @template if not layers?
+
+		# loop
+		for layer in layers
+
+			# push text layers
+			if Array.isArray(layer)
+				@collect(layer)
+
+			# find text layers in layergroup
+			else
+				@textlayers.push(layer)
+
+
+
+	#––––––––––––––––––––––––––––––––––––
 	# render
 	#––––––––––––––––––––––––––––––––––––
 
@@ -135,29 +156,10 @@ module.exports = class Barbershop
 		@textlayers = []
 
 		# collect textlayers
-		@collect(@template)
+		@collect()
 
 		# start shaving
 		@shave()
-
-
-
-	#––––––––––––––––––––––––––––––––––––
-	# recursively find all textlayers
-	#––––––––––––––––––––––––––––––––––––
-
-	collect: (layers) ->
-
-		# loop
-	    for layer in layers
-
-	      # push text layers
-	      if Array.isArray(layer)
-	      	@collect(layer)
-
-	      # find text layers in layergroup
-	      else
-	      	@textlayers.push(layer)
 
 
 
