@@ -4,11 +4,15 @@
 # Basic Barberbershop
 module.exports = class Barbershop
 
+
 	#––––––––––––––––––––––––––––––––––––
 	# constructor
 	#––––––––––––––––––––––––––––––––––––
 
 	constructor: (@input) -> 
+
+		# prepare output
+		@output = []
 
 		# get template
 		@template = @getTemplate()
@@ -26,6 +30,8 @@ module.exports = class Barbershop
 		else
 			@alert('data not parsed')
 
+		return @output
+
 
 
 	#––––––––––––––––––––––––––––––––––––
@@ -35,10 +41,10 @@ module.exports = class Barbershop
 	import: ->
 
 		# parse json
-		return @json(@input) if input.type is 'json'
+		return @json(@input) if @input.type is 'json'
 
 		# parse csv
-		return @csv(@input) if input.type is 'csv'
+		return @csv(@input) if @input.type is 'csv'
 
 
 
@@ -61,7 +67,7 @@ module.exports = class Barbershop
 		if Array.isArray(parsed)
 
 			# no rows, useless
-			return if parsed.length? is 0
+			return if parsed.length is 0
 
 			# return parsed rows in an array
 			return parsed
@@ -237,8 +243,15 @@ module.exports = class Barbershop
 	#––––––––––––––––––––––––––––––––––––
 
 	end: -> 
-		#return
-		console.log (layer for layer in @textlayers)
+
+		# output like [ 'layer1', 'layer2', 'layer3' ]
+		output = (layer for layer in @textlayers)
+
+		# add output
+		@output.push(output)
+
+		# log output
+		console.log @output
 
 
 
@@ -280,3 +293,28 @@ class Barbershop.Html extends Barbershop
 	alert: (msg) -> console.log(msg)
 
 """
+###
+@data = """
+	{
+		layer: 'layer1',
+		layergroup: {
+			layer: 'layer2',
+			layergroup: {
+				layer: 'layer3'
+			}
+		}
+	}
+"""
+
+@template = [
+	"{{ layer }}"
+	"{{ layergroup.layer }}"
+	"{{ layergroup.layergroup.layer }}"
+]
+
+input = 
+	type: 'json'
+	data: @data
+	template: @template
+
+b = new Barbershop(input)	###
