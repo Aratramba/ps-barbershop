@@ -1,135 +1,282 @@
-class Barbershop
-
-  constructor: (@input) ->
-
-    @template = app.activeDocument
-
-    # eval JSON
-    if @input.type is 'json'
-      json = eval("(#{@input.data})")
-
-      # if it's json object
-      if not json.length
-        @prepare(json)
-
-      # if it's an array with just 1 object
-      else if json.length is 1
-        @prepare(obj[0])
-
-      # if it's an array with multiple objects
-      else
-      
-        # double check if this is what we want
-        if confirm('Multiple rows detected. This will create a duplicate psd for each row. Proceed?')
-
-          # render all rows
-          @prepare(obj) for obj in json
+{ arrayToObject, csv2array } = require('./utils')
 
 
-    # jsonify CSV data
-    if @input.type is 'csv'
+# Basic Barberbershop
+module.exports = class Barbershop
 
-      arr = csv2array(@input.data, @input.csv_separator, @input.string_delimiter)
+	#––––––––––––––––––––––––––––––––––––
+	# constructor
+	#––––––––––––––––––––––––––––––––––––
 
-      return if not arr
+	constructor: (@input) -> 
 
-      # if just 1 row
-      if arr.length is 1
-        alert('Only one row detected. Make sure there is at least one row of column names and one row of data present.')
-        return
+		# get template
+		@template = @getTemplate()
 
-      # if just 2 rows
-      else if arr.length is 2
-        @prepare(arrayToObject(arr))
+		# cleanup input
+		dataRows = @import()
 
-      # if multiple rows
-      else
+		# check if data is valid
+		if dataRows and typeof Array.isArray(dataRows)
 
-        # double check if this is what we want
-        if confirm('Multiple rows detected. This will create a duplicate psd for each row. Proceed?')
+			# setup document for every row found
+			@prepare(row) for row in dataRows 
 
-          # render all rows
-          @prepare(arrayToObject([arr[0], row])) for row in arr.slice(1)
+		# data was not parsed
+		else
+			@alert('data not parsed')
 
 
 
-  # find all text layers in document
-  getTextLayers: (layers) ->
+	#––––––––––––––––––––––––––––––––––––
+	# import data
+	#––––––––––––––––––––––––––––––––––––
 
-    # loop
-    for layer in layers
+	import: ->
 
-      # push text layers
-      if layer.kind is LayerKind.TEXT
-        @textlayers.push(layer)
+		# parse json
+		return @json(@input) if input.type is 'json'
 
-      # recurse into layergroups
-      if layer.typename is 'LayerSet'
-        @getTextLayers(layer.layers)
+		# parse csv
+		return @csv(@input) if input.type is 'csv'
 
 
 
-  # prepare document
-  prepare: (json) ->
+	#––––––––––––––––––––––––––––––––––––
+	# convert input to json
+	#––––––––––––––––––––––––––––––––––––
 
-    # duplicate
-    @template.duplicate(@input.docName) if @input.duplicate
+	json: (input) ->
 
-    # suspend history
-    app.activeDocument.suspendHistory("Barbershop magic", "this.render(json)")
+		# js evaluate input
+		try
+			parsed = eval("(#{input.data})")
 
+		# not evalable
+		catch err
+			@alert('error while evaluating input')
+			return
 
+		# create array
+		if Array.isArray(parsed)
 
-  # render all text layers
-  render: (json) ->
-    
-    # gather all text layers
-    @textlayers = []
-    @getTextLayers(app.activeDocument.layers)
+			# no rows, useless
+			return if parsed.length? is 0
 
-    # loop through all textlaters
-    for layer in @textlayers
-
-      # find {{tags}}, replace with values
-      contents = layer.textItem.contents.replace /\{\{([^}]+)\}\}/gi, (original, text) ->
-
-        # remove spaces
-        tag = text.replace(/\s+/gi, '')
-        
-        # quick resolve
-        if tag.indexOf('.') is -1
-          if typeof json[tag] is 'string'
-            return json[tag].replace(/\n/g, '\r')
-          return original
-
-        # resolve object
-        keys = tag.split('.')
-
-        # reference object
-        ref = json
-
-        # loop through keys
-        for key,counter in keys
-
-          # if a key was found
-          if ref[key]
-            ref = ref[key]
-
-          # break if no index was found
-          else
-            break
-          
-        # if a string was found + ensure it was the last key found
-        if typeof ref is 'string' and counter is keys.length
-          return ref.replace(/\n/g, '\r')
-
-        # last resort, return original
-        return original
+			# return parsed rows in an array
+			return parsed
+				
+		# return object wrapped in array for convenience
+		return [parsed]
 
 
-      # replace content only if something changed
-      if contents isnt layer.textItem.contents
-        layer.textItem.contents = contents
 
-    # focus on template
-    app.activeDocument = @template
+	#––––––––––––––––––––––––––––––––––––
+	# convert input to csv
+	#––––––––––––––––––––––––––––––––––––
+
+	csv: (input) -> 
+
+		# create an array from csv
+		original = csv2array(@input.data, @input.csv_separator, @input.string_delimiter)
+
+		# if it's not an array, it's useless
+		return if not original
+
+		# if it's just 1 row, useless
+		return if original.length is 1
+
+		# create new array
+		dataRows = []
+
+		# find header and remove from original array
+		header = original.shift()
+
+		# loop
+		for row,counter in original
+
+			# create object: create keys from header, values from row
+			obj = arrayToObject([header, row])
+
+			# add row
+			dataRows.push(obj)
+
+		return dataRows
+
+
+
+
+	#––––––––––––––––––––––––––––––––––––
+	# prepare document
+	#––––––––––––––––––––––––––––––––––––
+
+	prepare: (dataRow) -> 
+
+		# current
+		@current = dataRow
+
+		# render
+		@render()
+
+
+
+	#––––––––––––––––––––––––––––––––––––
+	# render
+	#––––––––––––––––––––––––––––––––––––
+
+	render: -> 
+
+		# contain all textlayers
+		@textlayers = []
+
+		# collect textlayers
+		@collect(@template)
+
+		# start shaving
+		@shave()
+
+
+
+	#––––––––––––––––––––––––––––––––––––
+	# recursively find all textlayers
+	#––––––––––––––––––––––––––––––––––––
+
+	collect: (layers) ->
+
+		# loop
+	    for layer in layers
+
+	      # push text layers
+	      if Array.isArray(layer)
+	      	@collect(layer)
+
+	      # find text layers in layergroup
+	      else
+	      	@textlayers.push(layer)
+
+
+
+	#––––––––––––––––––––––––––––––––––––
+	# start cutting
+	#––––––––––––––––––––––––––––––––––––
+
+	shave: ->
+
+		# loop through layers
+		for layer,counter in @textlayers
+
+			# replace template strings
+			contents = layer.replace /\{\{([^}]+)\}\}/gi, @trim
+
+			# replace content only if something changed
+			@textlayers[counter] = contents if contents isnt layer
+
+		@end()
+
+
+
+	#––––––––––––––––––––––––––––––––––––
+	# trim a textlayer
+	#––––––––––––––––––––––––––––––––––––
+
+	trim: (original, text) =>
+
+		# remove spaces
+		tag = text.replace(/\s+/gi, '')
+
+
+		# –––
+		# quick resolve when no . is found
+		# –––
+
+		if tag.indexOf('.') is -1
+
+			# if it's a string
+			if typeof @current[tag] is 'string'
+
+				# return new value
+				return @current[tag].replace(/\n/g, '\r')
+
+			# return original
+			return original
+
+
+		#–––
+		# resolve object notation
+		# –––
+
+		keys = tag.split('.')
+
+		# reference object
+		ref = @current
+
+		# loop through keys
+		for key,counter in keys
+
+			# if a key was found
+			if ref[key]
+
+				# set new reference
+				ref = ref[key]
+
+			# break if no index was found
+			else
+				break
+
+		# if a string was found + ensure it was the last key found
+		if typeof ref is 'string' and counter is keys.length
+			return ref.replace(/\n/g, '\r')
+
+		# last resort, return original
+		return original
+
+
+
+	#––––––––––––––––––––––––––––––––––––
+	# end
+	#––––––––––––––––––––––––––––––––––––
+
+	end: -> 
+		#return
+		console.log (layer for layer in @textlayers)
+
+
+
+	#––––––––––––––––––––––––––––––––––––
+	# get template
+	#––––––––––––––––––––––––––––––––––––
+
+	getTemplate: -> return @input.template
+
+
+	#––––––––––––––––––––––––––––––––––––
+	# there's no confirm in console
+	#––––––––––––––––––––––––––––––––––––
+
+	confirm: (msg) -> return true
+
+
+	#––––––––––––––––––––––––––––––––––––
+	# alert via console
+	#––––––––––––––––––––––––––––––––––––
+
+	alert: (msg) -> console.log(msg)
+
+
+
+"""
+
+# photoshop specific code
+class Barbershop.Photoshop extends Barbershop
+	confirm: (msg) -> return confirm(msg)
+	alert: (msg) -> alert(msg)
+	getTemplate: -> return app.activeDocument
+
+
+
+# html specific code
+class Barbershop.Html extends Barbershop
+	confirm: (msg) -> return confirm(msg)
+	alert: (msg) -> console.log(msg)
+
+"""

@@ -288,6 +288,16 @@ Barbershop = (function() {
 
 })();
 
-var dialog;
+var app, dialog;
 
 dialog = new Dialog();
+
+if (!app) {
+  app = {
+    documents: {},
+    activeDocument: {
+      layers: {},
+      suspendHistory: function() {}
+    }
+  };
+}

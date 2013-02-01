@@ -4,11 +4,13 @@
   "author": "Arjen Scherff-de Water",
   "dependencies": {},
   "devDependencies": {
-      "grunt": "~0.4.0",
-      "grunt-contrib-watch": "~0.1.4",
-      "grunt-contrib-coffee": "git://github.com/gruntjs/grunt-contrib-coffee",
-      "grunt-contrib-copy": "git://github.com/ctalkington/grunt-contrib-copy",
-      "grunt-contrib-concat": "0.1.2rc5"
+    "grunt": "~0.4.0",
+    "grunt-contrib-watch": "~0.1.4",
+    "grunt-contrib-coffee": "git://github.com/gruntjs/grunt-contrib-coffee",
+    "grunt-contrib-copy": "git://github.com/ctalkington/grunt-contrib-copy",
+    "grunt-contrib-concat": "0.1.2rc5",
+    "grunt-jasmine-node": "0.0.6",
+    "coffee-script": "~1.4.0"
   },
   "engines": {
     "node": "0.8.x",

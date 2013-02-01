@@ -4,6 +4,7 @@ module.exports = (grunt) ->
 	grunt.loadNpmTasks('grunt-contrib-coffee')
 	grunt.loadNpmTasks('grunt-contrib-copy')
 	grunt.loadNpmTasks('grunt-contrib-concat')
+	grunt.loadNpmTasks('grunt-jasmine-node')
 
 
 	grunt.initConfig
@@ -41,5 +42,15 @@ module.exports = (grunt) ->
 				dest: '/Applications/Adobe\ Photoshop\ CS5/Presets/Scripts/barbershop.jsx' 
 
 
+		jasmine_node:
+			spec: "./spec"
+			projectRoot: "."
+			requirejs: false
+			forceExit: true
+			extensions: "js|coffee"
+			isVerbose: true
+
+
 	# task
 	grunt.registerTask('default', ['watch'])
+	grunt.registerTask('test', ['jasmine_node'])
