@@ -1,9 +1,8 @@
 { arrayToObject, csv2array } = require('./utils')
 
 
-# Basic Barberbershop
+# Basic Barbershop
 module.exports = class Barbershop
-
 
 	#––––––––––––––––––––––––––––––––––––
 	# constructor
@@ -21,7 +20,7 @@ module.exports = class Barbershop
 		dataRows = @import()
 
 		# check if data is valid
-		if dataRows and typeof Array.isArray(dataRows)
+		if dataRows and typeof dataRows.length
 
 			# setup document for every row found
 			@prepare(row) for row in dataRows 
@@ -63,10 +62,10 @@ module.exports = class Barbershop
 			@alert('error while evaluating input')
 			return
 
-		# create array
-		if Array.isArray(parsed)
+		# if it's an array
+		if parsed.length
 
-			# no rows, useless
+			# no rows, useless, go away
 			return if parsed.length is 0
 
 			# return parsed rows in an array
@@ -251,7 +250,7 @@ module.exports = class Barbershop
 		@output.push(output)
 
 		# log output
-		console.log @output
+		# console.log @output
 
 
 
@@ -293,28 +292,3 @@ class Barbershop.Html extends Barbershop
 	alert: (msg) -> console.log(msg)
 
 """
-###
-@data = """
-	{
-		layer: 'layer1',
-		layergroup: {
-			layer: 'layer2',
-			layergroup: {
-				layer: 'layer3'
-			}
-		}
-	}
-"""
-
-@template = [
-	"{{ layer }}"
-	"{{ layergroup.layer }}"
-	"{{ layergroup.layergroup.layer }}"
-]
-
-input = 
-	type: 'json'
-	data: @data
-	template: @template
-
-b = new Barbershop(input)	###

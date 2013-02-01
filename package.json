@@ -10,7 +10,8 @@
     "grunt-contrib-copy": "git://github.com/ctalkington/grunt-contrib-copy",
     "grunt-contrib-concat": "0.1.2rc5",
     "grunt-jasmine-node": "0.0.6",
-    "coffee-script": "~1.4.0"
+    "coffee-script": "~1.4.0",
+    "grunt-browserify": "git://github.com/aearly/grunt-browserify.git#97dd1feb16"
   },
   "engines": {
     "node": "0.8.x",
