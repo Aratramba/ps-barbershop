@@ -5,7 +5,7 @@
 
 ## Getting started ##
 #### 1. Copy .jsx file ####
-copy `build/barbershop.jsx` to your Photoshop scripts folder:
+copy `install/barbershop.jsx` to your Photoshop scripts folder:
 
 Windows: `C:\Program Files\Adobe\Adobe Photoshop CS5\Presets\Scripts`   
 Mac OS: `Applications\Adobe Photoshop CS5\Presets\Scripts`

@@ -25,9 +25,12 @@ module.exports = (grunt) ->
 
 
 		copy:
-			dist:
+			js:
 				src: ['js/barbershop.js']
 				dest: '/Applications/Adobe\ Photoshop\ CS3/Presets/Scripts/barbershop.jsx' 
+			jsx:
+				src: ['js/barbershop.js']
+				dest: 'install/barbershop.jsx'
 
 
 		jasmine_node:
