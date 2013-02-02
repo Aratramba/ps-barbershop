@@ -19,7 +19,7 @@ Create variables in your textlayers by wrapping them in double curly brackets, l
 
 Restart Photoshop. 
 
-Now run the script from the Photoshop menu under `file › scripts › barbershop`.
+Now run the script from the Photoshop menu under `file › scripts › barbershop` or go to `file › scripts › browse` and find `barbershop.jsx`.
 
 A dialog should now appear where you can tweak some import settings. Import your file and all your variables will be magically replaced by their matching data.
 
