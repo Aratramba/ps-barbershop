@@ -1,4 +1,9 @@
-class Dialog
+settings = require('./photoshop.settings')
+Barbershop = require('./photoshop.barbershop')
+
+
+# photoshop dialog
+module.exports = class Dialog
 
   constructor: () ->
 
@@ -17,10 +22,6 @@ class Dialog
     fields.browse = group.add('edittext', { x: 0, y: 0, width: 250, height: 25 }, '')
     fields.browse.enabled = false
     buttons.browse = group.add('button', undefined, 'browse')
-
-    #group.add('statictext', undefined, 'insert sample')
-    #buttons.sample_json = group.add('button', undefined, 'json')
-    #buttons.sample_csv = group.add('button', undefined, 'csv')
 
     # paste data
     fields.data = dlg.add('edittext', { x: 0, y: 0, width: 600, height: 300 }, undefined, { multiline: true, scrolling: true })
@@ -64,9 +65,6 @@ class Dialog
     buttons.submit.onClick = @close
     buttons.browse.onClick = @browse
 
-    #buttons.sample_json.onClick = @insertJSON
-    #buttons.sample_csv.onClick = @insertCSV
-
     @changeType()
 
     # show dialog
@@ -88,7 +86,7 @@ class Dialog
     values = {
         data: @fields.data.text,
         duplicate: @fields.duplicate.value,
-        docName: @fields.duplicate_name.text,
+        duplicate_name: @fields.duplicate_name.text,
         type: @fields.type.selection.text,
         csv_separator: @fields.csv_separator.text,
         string_delimiter: @fields.string_delimiter.text

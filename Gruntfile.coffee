@@ -1,9 +1,9 @@
 module.exports = (grunt) ->
 
 	grunt.loadNpmTasks('grunt-contrib-watch')
-	grunt.loadNpmTasks('grunt-contrib-coffee')
 	grunt.loadNpmTasks('grunt-contrib-copy')
-	grunt.loadNpmTasks('grunt-contrib-concat')
+	grunt.loadNpmTasks('grunt-jasmine-node')
+	grunt.loadNpmTasks('grunt-browserify')
 
 
 	grunt.initConfig
@@ -12,34 +12,37 @@ module.exports = (grunt) ->
 		watch:
 			coffee:
 				files: 'coffee/**/*.coffee'
-				tasks: ['coffee', 'concat', 'copy']
+				tasks: ['jasmine_node','browserify', 'copy']
 			
 			js: 
-				files: ['js/*.js', 'js/lib/*.js']
-				tasks: ['concat', 'copy']
+				files: ['js/barbershop.js']
+				tasks: ['copy']
 
 
-		coffee:
-			compile:
-				options:
-					bare: true
-
-				files:
-					'js/settings.js': 'coffee/settings.coffee'
-					'js/all.js': ['coffee/utils.coffee', 'coffee/dialog.coffee', 'coffee/barbershop.coffee', 'coffee/index.coffee']
-
-
-		concat:
-			dist:
-				src: ['js/settings.js', 'js/lib/csv2array.js', 'js/all.js']
-				dest: 'build/barbershop.jsx'
+		browserify:
+			'js/barbershop.js':
+				src: 'coffee/photoshop.index.coffee'
 
 
 		copy:
-			dist:
-				src: ['build/barbershop.jsx']
-				dest: '/Applications/Adobe\ Photoshop\ CS5/Presets/Scripts/barbershop.jsx' 
+			js:
+				src: ['js/barbershop.js']
+				dest: '/Applications/Adobe\ Photoshop\ CS3/Presets/Scripts/barbershop.jsx' 
+			jsx:
+				src: ['js/barbershop.js']
+				dest: 'install/barbershop.jsx'
+
+
+		jasmine_node:
+			spec: "./spec"
+			projectRoot: "."
+			requirejs: false
+			forceExit: true
+			extensions: "js|coffee"
+			isVerbose: true
 
 
 	# task
 	grunt.registerTask('default', ['watch'])
+	grunt.registerTask('test', ['jasmine_node'])
+	grunt.registerTask('compile', ['browserify'])
