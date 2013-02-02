@@ -1,6 +1,8 @@
 settings = require('./photoshop.settings')
 Barbershop = require('./photoshop.barbershop')
 
+
+# photoshop dialog
 module.exports = class Dialog
 
   constructor: () ->

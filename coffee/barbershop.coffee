@@ -27,7 +27,7 @@ module.exports = class Barbershop
 
 		# data was not parsed
 		else
-			@alert('data not parsed')
+			@alert('There was an error parsing the input')
 
 		return @output
 

@@ -1,6 +1,5 @@
-
-
 Barbershop = require('./barbershop')
+
 
 # Photoshop Barbershop
 module.exports = class Barbershop.Photoshop extends Barbershop

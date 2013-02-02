@@ -680,7 +680,7 @@ require.define("/barbershop.coffee",function(require,module,exports,__dirname,__
           this.prepare(row);
         }
       } else {
-        this.alert('data not parsed');
+        this.alert('There was an error parsing the input');
       }
       return this.output;
     }
