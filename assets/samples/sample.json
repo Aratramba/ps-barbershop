@@ -1,7 +1,9 @@
 {
-	"name": {
-		"firstname": "Barber",
-		"lastname": "Shop"
-	},
-	"textfield": "some\ntext"
+	"layer": "layer1",
+	"layergroup": {
+		"layer": "layer2",
+		"layergroup": {
+			"layer": "layer3"
+		}
+	}
 }
