@@ -135,7 +135,6 @@ function csv2array(data, delimeter, string_delimiter) {
 `
 
 
-
 module.exports = {
 	arrayToObject
 	csv2array

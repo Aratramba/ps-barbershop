@@ -1,0 +1,22 @@
+[{
+	"layer": "layer1",
+	"layergroup": {
+		"layer": function(){
+			return Math.round(Math.random() * 10000)
+		},
+		"layergroup": {
+			"layer": "layer3"
+		}
+	}
+},
+{
+	"layer": "layer1 II",
+	"layergroup": {
+		"layer": function(){
+			return "layer2"
+		},
+		"layergroup": {
+			"layer": "layergroup.layer()"
+		}
+	}
+}]

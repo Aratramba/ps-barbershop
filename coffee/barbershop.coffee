@@ -117,8 +117,8 @@ module.exports = class Barbershop
 
 	prepare: (dataRow) -> 
 
-		# current
-		@current = dataRow
+		# json
+		@data = dataRow
 
 		# render
 		@render()
@@ -172,10 +172,10 @@ module.exports = class Barbershop
 		# loop through layers
 		for layer,counter in @textlayers
 
-			# replace template strings
+			# remove {{ }} and replace with json value
 			contents = layer.replace /\{\{([^}]+)\}\}/gi, @trim
 
-			# replace content only if something changed
+			# replace content only if something has changed
 			@textlayers[counter] = contents if contents isnt layer
 
 		@end()
@@ -191,51 +191,89 @@ module.exports = class Barbershop
 		# remove spaces
 		tag = text.replace(/\s+/gi, '')
 
-
-		# –––
-		# quick resolve when no . is found
-		# –––
-
-		if tag.indexOf('.') is -1
-
-			# if it's a string
-			if typeof @current[tag] is 'string'
-
-				# return new value
-				return @current[tag].replace(/\n/g, '\r')
-
-			# return original
-			return original
-
-
 		#–––
 		# resolve object notation
 		# –––
 
+		# find keys
 		keys = tag.split('.')
 
 		# reference object
-		ref = @current
+		ref = @data
 
 		# loop through keys
-		for key,counter in keys
+		for key in keys
 
-			# if a key was found
-			if ref[key]
+			# stop loop if no key was found
+			break if not ref[key]
 
-				# set new reference
-				ref = ref[key]
+			# set new reference if a key was found
+			ref = ref[key]
 
-			# break if no index was found
-			else
-				break
+		# if a string was found
+		if typeof ref is 'string'
 
-		# if a string was found + ensure it was the last key found
-		if typeof ref is 'string' and counter is keys.length
-			return ref.replace(/\n/g, '\r')
+			#–––
+			# functions
+			# –––
+
+			# if it finds () at the end of the string, it's a function reference: "func()"
+			if /\(\)$/.test(ref)
+
+				# if no dot was found: "func()"
+				if ref.indexOf('.') is -1
+
+					# remove () from end of string and find referenced function
+					fn = @data[ref.replace(/\(\)$/, '')]
+
+				# if a dot was found
+				else
+
+					# find path in object data[nested][func]
+					path = ref.replace(/\(\)$/, '').split('.')
+
+					# set root
+					fn = @data
+
+					# traverse path
+					fn = fn[key] for key in path
+						
+
+				# if it's a function
+				if typeof fn is 'function'
+
+					# execute function
+					return @resolveFn(fn)
+
+				# oops, not a function
+				else
+					@alert("Something went wrong trying to match '#{tag}' '#{ref}'")
+
+			# if it's plain text return replaced value with photoshop acceptable newlines
+			return @resolveText(ref)
+
+
+
+		# if it's a function
+		if typeof ref is 'function'
+
+			# execute
+			return @resolveFn(ref)
 
 		# last resort, return original
 		return original
+
+
+
+	#––––––––––––––––––––––––––––––––––––
+	# return types
+	#––––––––––––––––––––––––––––––––––––
+
+	resolveFn: (val) ->
+		return val.call(@data)
+
+	resolveText: (val) ->
+		return val.replace(/\n/g, '\r')
 
 
 
@@ -277,20 +315,3 @@ module.exports = class Barbershop
 	alert: (msg) -> console.log(msg)
 
 
-
-"""
-
-# photoshop specific code
-class Barbershop.Photoshop extends Barbershop
-	confirm: (msg) -> return confirm(msg)
-	alert: (msg) -> alert(msg)
-	getTemplate: -> return app.activeDocument
-
-
-
-# html specific code
-class Barbershop.Html extends Barbershop
-	confirm: (msg) -> return confirm(msg)
-	alert: (msg) -> console.log(msg)
-
-"""
