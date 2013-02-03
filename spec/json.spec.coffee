@@ -190,3 +190,42 @@ describe "Barbershop json", ->
 		
 		b = new Barbershop(input)
 		expect(b).toEqual([['barbershop']])
+
+
+	#––––––––––––––––––––––––––––––––––––
+	# execute function
+	#––––––––––––––––––––––––––––––––––––
+
+	it "must execute functions with arguments", ->
+
+		input = 
+			type: 'json'
+			data: """
+			{
+				fn: function(a,b){
+					return 'barbershop';
+				}
+			}
+			"""
+			template: ["{{ fn }}"]
+		
+		b = new Barbershop(input)
+		expect(b).toEqual([['barbershop']])
+
+
+	it "must execute referenced functions with arguments", ->
+
+		input = 
+			type: 'json'
+			data: """
+			{
+				fn: function(a,b,c,d){
+					return a +''+ b + (c * d);
+				},
+				ref: "fn(barber,shop, 2, 2)"
+			}
+			"""
+			template: ["{{ ref }}"]
+		
+		b = new Barbershop(input)
+		expect(b).toEqual([['barbershop4']])
