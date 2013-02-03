@@ -76,6 +76,31 @@ Or an array holding multiple objects. This will create multiple psd's.
 }]
 ``` 
 
+Functions can be used as well. 
+
+If a tag matches a function, that function will be executed. `{{ fn }}`
+
+```javascript
+{
+    fn: function(){
+        return Math.random()
+    }
+}
+```
+
+To execute a function from another place in the json file, use its full path: `{{ ref }}`
+
+```javascript
+{
+    nested: {
+        fn: function(){
+            return Math.random()
+        },
+    },
+    ref: "nested.fn()"
+}
+```
+
 ---
 
 ### Why use it? ###
