@@ -11,7 +11,7 @@ module.exports = class Barbershop.Photoshop extends Barbershop
 	prepare: (dataRow) ->
 
 		# current
-		@current = dataRow
+		@data = dataRow
 
 		# duplicate
 		@template.duplicate(@input.duplicate_name) if @input.duplicate

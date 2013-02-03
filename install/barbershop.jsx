@@ -571,7 +571,7 @@ require.define("/photoshop.settings.coffee",function(require,module,exports,__di
     type: 'json',
     csv_separator: ';',
     string_delimiter: '\"',
-    duplicate: true
+    duplicate: false
   };
 
 }).call(this);
@@ -594,7 +594,7 @@ require.define("/photoshop.barbershop.coffee",function(require,module,exports,__
     }
 
     Photoshop.prototype.prepare = function(dataRow) {
-      this.current = dataRow;
+      this.data = dataRow;
       if (this.input.duplicate) {
         this.template.duplicate(this.input.duplicate_name);
       }
@@ -731,7 +731,7 @@ require.define("/barbershop.coffee",function(require,module,exports,__dirname,__
     };
 
     Barbershop.prototype.prepare = function(dataRow) {
-      this.current = dataRow;
+      this.data = dataRow;
       return this.render();
     };
 
@@ -772,28 +772,49 @@ require.define("/barbershop.coffee",function(require,module,exports,__dirname,__
     };
 
     Barbershop.prototype.trim = function(original, text) {
-      var counter, key, keys, ref, tag, _i, _len;
+      var fn, key, keys, path, ref, tag, _i, _j, _len, _len1;
       tag = text.replace(/\s+/gi, '');
-      if (tag.indexOf('.') === -1) {
-        if (typeof this.current[tag] === 'string') {
-          return this.current[tag].replace(/\n/g, '\r');
-        }
-        return original;
-      }
       keys = tag.split('.');
-      ref = this.current;
-      for (counter = _i = 0, _len = keys.length; _i < _len; counter = ++_i) {
-        key = keys[counter];
-        if (ref[key]) {
-          ref = ref[key];
-        } else {
+      ref = this.data;
+      for (_i = 0, _len = keys.length; _i < _len; _i++) {
+        key = keys[_i];
+        if (!ref[key]) {
           break;
         }
+        ref = ref[key];
       }
-      if (typeof ref === 'string' && counter === keys.length) {
-        return ref.replace(/\n/g, '\r');
+      if (typeof ref === 'string') {
+        if (/\(\)$/.test(ref)) {
+          if (ref.indexOf('.') === -1) {
+            fn = this.data[ref.replace(/\(\)$/, '')];
+          } else {
+            path = ref.replace(/\(\)$/, '').split('.');
+            fn = this.data;
+            for (_j = 0, _len1 = path.length; _j < _len1; _j++) {
+              key = path[_j];
+              fn = fn[key];
+            }
+          }
+          if (typeof fn === 'function') {
+            return this.resolveFn(fn);
+          } else {
+            this.alert("Something went wrong trying to match '" + tag + "' '" + ref + "'");
+          }
+        }
+        return this.resolveText(ref);
+      }
+      if (typeof ref === 'function') {
+        return this.resolveFn(ref);
       }
       return original;
+    };
+
+    Barbershop.prototype.resolveFn = function(val) {
+      return val.call(this.data);
+    };
+
+    Barbershop.prototype.resolveText = function(val) {
+      return val.replace(/\n/g, '\r');
     };
 
     Barbershop.prototype.end = function() {
@@ -826,9 +847,6 @@ require.define("/barbershop.coffee",function(require,module,exports,__dirname,__
     return Barbershop;
 
   })();
-
-  "\n# photoshop specific code\nclass Barbershop.Photoshop extends Barbershop\n	confirm: (msg) -> return confirm(msg)\n	alert: (msg) -> alert(msg)\n	getTemplate: -> return app.activeDocument\n\n\n\n# html specific code\nclass Barbershop.Html extends Barbershop\n	confirm: (msg) -> return confirm(msg)\n	alert: (msg) -> console.log(msg)\n";
-
 
 }).call(this);
 
