@@ -46,6 +46,7 @@ Barbershop;"some text";
 ##### JSON ####
 Any JSON'ish file will do really.
 
+###### Object #####
 You can use a plain Javascript object:
 
 ```javascript
@@ -58,7 +59,8 @@ You can use a plain Javascript object:
 }
 ```
 
-Or an array holding multiple objects. This will create multiple psd's.
+###### Array of objects #####
+You can also use an array containing multiple objects. This will create multiple psd's.
 
 ```javascript
 [{
@@ -76,9 +78,8 @@ Or an array holding multiple objects. This will create multiple psd's.
 }]
 ``` 
 
-Functions can be used as well. 
-
-If a tag matches a function, that function will be executed. `{{ fn }}`
+###### Functions #####
+Functions can be used as well. If a tag matches a function, that function will be executed. `{{ fn }}`
 
 ```javascript
 {
