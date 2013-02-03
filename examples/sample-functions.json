@@ -19,4 +19,15 @@
 			"layer": "layergroup.layer()"
 		}
 	}
+},
+{
+	"layer": "layer1 III",
+	"layergroup": {
+		"layer": function(a,b){
+			return a*a
+		},
+		"layergroup": {
+			"layer": "layergroup.layer(2,2)"
+		}
+	}
 }]

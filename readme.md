@@ -79,7 +79,7 @@ You can also use an array containing multiple objects. This will create multiple
 ``` 
 
 ###### Functions #####
-Functions can be used as well. If a tag matches a function, that function will be executed. `{{ fn }}`
+Javascript functions can be used as well. If a tag matches a function, that function will be executed. `{{ fn }}`
 
 ```javascript
 {
@@ -99,6 +99,17 @@ To execute a function from another place in the json file, use its full path: `{
         },
     },
     ref: "nested.fn()"
+}
+```
+
+Pass arguments to a function:
+
+```javascript
+{
+    fn: function(a,b){
+        return a + b
+    },
+    ref: "nested.fn(barber,shop)"
 }
 ```
 

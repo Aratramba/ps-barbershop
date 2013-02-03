@@ -772,7 +772,7 @@ require.define("/barbershop.coffee",function(require,module,exports,__dirname,__
     };
 
     Barbershop.prototype.trim = function(original, text) {
-      var fn, key, keys, path, ref, tag, _i, _j, _len, _len1;
+      var args, fn, key, keys, path, ref, tag, _i, _j, _len, _len1;
       tag = text.replace(/\s+/gi, '');
       keys = tag.split('.');
       ref = this.data;
@@ -784,11 +784,11 @@ require.define("/barbershop.coffee",function(require,module,exports,__dirname,__
         ref = ref[key];
       }
       if (typeof ref === 'string') {
-        if (/\(\)$/.test(ref)) {
+        if (/\(.*?\)$/.test(ref)) {
           if (ref.indexOf('.') === -1) {
-            fn = this.data[ref.replace(/\(\)$/, '')];
+            fn = this.data[ref.replace(/\(.*?\)$/, '')];
           } else {
-            path = ref.replace(/\(\)$/, '').split('.');
+            path = ref.replace(/\(.*?\)$/, '').split('.');
             fn = this.data;
             for (_j = 0, _len1 = path.length; _j < _len1; _j++) {
               key = path[_j];
@@ -796,7 +796,8 @@ require.define("/barbershop.coffee",function(require,module,exports,__dirname,__
             }
           }
           if (typeof fn === 'function') {
-            return this.resolveFn(fn);
+            args = ref.match(/\((.*?)\)$/)[1].split(',');
+            return this.resolveFn(fn, args);
           } else {
             this.alert("Something went wrong trying to match '" + tag + "' '" + ref + "'");
           }
@@ -809,8 +810,11 @@ require.define("/barbershop.coffee",function(require,module,exports,__dirname,__
       return original;
     };
 
-    Barbershop.prototype.resolveFn = function(val) {
-      return val.call(this.data);
+    Barbershop.prototype.resolveFn = function(val, args) {
+      if (args == null) {
+        args = [];
+      }
+      return val.apply(this.data, args);
     };
 
     Barbershop.prototype.resolveText = function(val) {
