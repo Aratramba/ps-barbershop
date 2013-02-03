@@ -70,3 +70,123 @@ describe "Barbershop json", ->
 		
 		b = new Barbershop(input)
 		expect(b).toEqual([['layer1', 'layer2', 'layer3'],['layer1', 'layer2', 'layer3'],['layer1', 'layer2', 'layer3']])
+
+
+
+	#––––––––––––––––––––––––––––––––––––
+	# execute function
+	#––––––––––––––––––––––––––––––––––––
+
+	it "must execute functions", ->
+
+		input = 
+			type: 'json'
+			data: """
+			{
+				fn: function(){
+					return 'barbershop';
+				}
+			}
+			"""
+			template: ["{{ fn }}"]
+		
+		b = new Barbershop(input)
+		expect(b).toEqual([['barbershop']])
+
+
+
+	#––––––––––––––––––––––––––––––––––––
+	# execute nested function
+	#––––––––––––––––––––––––––––––––––––
+
+	it "must execute nested functions", ->
+
+		input = 
+			type: 'json'
+			data: """
+			{
+				foo: {
+					fn: function(){
+						return 'barbershop';
+					}
+				}
+			}
+			"""
+			template: ["{{ foo.fn }}"]
+		
+		b = new Barbershop(input)
+		expect(b).toEqual([['barbershop']])
+
+
+	#––––––––––––––––––––––––––––––––––––
+	# execute function reference
+	#––––––––––––––––––––––––––––––––––––
+
+	it "must execute referenced function", ->
+
+		input = 
+			type: 'json'
+			data: """
+			{
+				fn: function(){
+					return 'barbershop';
+				},
+				ref: "fn()"
+			}
+			"""
+			template: ["{{ ref }}"]
+		
+		b = new Barbershop(input)
+		expect(b).toEqual([['barbershop']])
+
+
+
+	#––––––––––––––––––––––––––––––––––––
+	# execute nested function reference
+	#––––––––––––––––––––––––––––––––––––
+
+	it "must execute nested function reference", ->
+
+		input = 
+			type: 'json'
+			data: """
+			{
+				fn: function(){
+					return 'barbershop';
+				},
+				tag: {
+					ref: "fn()"
+				}
+			}
+			"""
+			template: ["{{ tag.ref }}"]
+		
+		b = new Barbershop(input)
+		expect(b).toEqual([['barbershop']])
+
+
+
+	#––––––––––––––––––––––––––––––––––––
+	# execute nested function call
+	#––––––––––––––––––––––––––––––––––––
+
+	it "must execute nested function call", ->
+
+		input = 
+			type: 'json'
+			data: """
+			{
+				nested: {
+					fn: function(){
+						return 'barbershop';
+					}
+				},
+				tag: {
+					ref: "nested.fn()"
+				}
+			}
+			"""
+			template: ["{{ tag.ref }}"]
+		
+		b = new Barbershop(input)
+		expect(b).toEqual([['barbershop']])

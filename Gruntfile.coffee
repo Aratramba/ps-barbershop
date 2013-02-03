@@ -18,6 +18,10 @@ module.exports = (grunt) ->
 				files: ['js/barbershop.js']
 				tasks: ['copy']
 
+			spec:
+				files: ['spec/**/*.coffee']
+				tasks: ['jasmine_node']
+
 
 		browserify:
 			'js/barbershop.js':
