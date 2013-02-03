@@ -217,20 +217,22 @@ module.exports = class Barbershop
 			# functions
 			# –––
 
-			# if it finds () at the end of the string, it's a function reference: "func()"
-			if /\(\)$/.test(ref)
+			# if it finds () at the end of the string, it's a function reference
+			# "func()", "func(1,2)", "func(barber,shop)"
+			if /\(.*?\)$/.test(ref)
 
 				# if no dot was found: "func()"
+				# note: this won't work for "func('1.1, 1.2')"
 				if ref.indexOf('.') is -1
 
 					# remove () from end of string and find referenced function
-					fn = @data[ref.replace(/\(\)$/, '')]
+					fn = @data[ref.replace(/\(.*?\)$/, '')]
 
 				# if a dot was found
 				else
 
 					# find path in object data[nested][func]
-					path = ref.replace(/\(\)$/, '').split('.')
+					path = ref.replace(/\(.*?\)$/, '').split('.')
 
 					# set root
 					fn = @data
@@ -242,8 +244,12 @@ module.exports = class Barbershop
 				# if it's a function
 				if typeof fn is 'function'
 
-					# execute function
-					return @resolveFn(fn)
+					# find arguments: "func(barber, shop)"
+					# todo: redo this regex
+					args = ref.match(/\((.*?)\)$/)[1].split(',')
+
+					# execute function with arguments
+					return @resolveFn(fn, args)
 
 				# oops, not a function
 				else
@@ -254,7 +260,7 @@ module.exports = class Barbershop
 
 
 
-		# if it's a function
+		# if it's a directly called function: `fn: function(){}`
 		if typeof ref is 'function'
 
 			# execute
@@ -269,8 +275,8 @@ module.exports = class Barbershop
 	# return types
 	#––––––––––––––––––––––––––––––––––––
 
-	resolveFn: (val) ->
-		return val.call(@data)
+	resolveFn: (val, args = []) ->
+		return val.apply(@data, args)
 
 	resolveText: (val) ->
 		return val.replace(/\n/g, '\r')
