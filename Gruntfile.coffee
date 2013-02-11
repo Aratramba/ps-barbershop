@@ -31,7 +31,7 @@ module.exports = (grunt) ->
 		copy:
 			js:
 				src: ['js/barbershop.js']
-				dest: '/Applications/Adobe\ Photoshop\ CS3/Presets/Scripts/barbershop.jsx' 
+				dest: '/Applications/Adobe\ Photoshop\ CS5/Presets/Scripts/barbershop.jsx' 
 			jsx:
 				src: ['js/barbershop.js']
 				dest: 'install/barbershop.jsx'

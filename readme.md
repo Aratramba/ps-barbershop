@@ -1,7 +1,7 @@
 # Barbershop ##
 #### So you want to import dynamic data into your psd's? ####
 
-![](https://raw.github.com/EightMedia/ps-barbershop/master/github/img/example.png)
+![](https://raw.github.com/EightMedia/ps-barbershop/master/github/example.png)
 
 ## Getting started ##
 #### 1. Copy .jsx file ####
@@ -15,7 +15,7 @@ Create variables in your textlayers by wrapping them in double curly brackets, l
 
 #### 3. Run the script ####
 
-![](https://raw.github.com/EightMedia/ps-barbershop/master/github/img/dialog.jpg)
+![](https://raw.github.com/EightMedia/ps-barbershop/master/github/dialog.jpg)
 
 Restart Photoshop. 
 
