@@ -79,7 +79,7 @@ You can also use an array containing multiple objects. This will create multiple
 ``` 
 
 ###### Functions #####
-Javascript functions can be used as well. If a tag matches a function, that function will be executed. `{{ fn }}`
+Javascript functions can be used as well. If a tag matches an executable function, that function will be executed. `{{ fn }}`
 
 ```javascript
 {
@@ -89,7 +89,7 @@ Javascript functions can be used as well. If a tag matches a function, that func
 }
 ```
 
-To execute a function from another place in the json file, use its full path: `{{ ref }}`
+To execute a function from another place in the json file, use its full path, and put quotes around it: `{{ ref }}`
 
 ```javascript
 {
@@ -102,14 +102,25 @@ To execute a function from another place in the json file, use its full path: `{
 }
 ```
 
-Pass arguments to a function:
+Pass arguments to a function `{{ ref }}`:
 
 ```javascript
 {
     fn: function(a,b){
         return a + b
     },
-    ref: "nested.fn(barber,shop)"
+    ref: "fn(barber,shop)"
+}
+```
+
+Use object properties for dynamic data `{{ fn }}`:
+
+```javascript
+{
+    prop: 0,
+    fn: function(){
+        return ++this.prop; // 1,2,3,4
+    }
 }
 ```
 
