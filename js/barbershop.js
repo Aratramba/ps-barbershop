@@ -610,9 +610,12 @@ require.define("/photoshop.barbershop.coffee",function(require,module,exports,__
       for (_i = 0, _len = layers.length; _i < _len; _i++) {
         layer = layers[_i];
         if (layer.kind === LayerKind.TEXT) {
-          this.textlayers.push(layer);
-        }
-        if (layer.typename === 'LayerSet' && layer.layers) {
+          if (layer.textItem.contents.match(this.MUSTACHE_REGEX)) {
+            _results.push(this.textlayers.push(layer));
+          } else {
+            _results.push(void 0);
+          }
+        } else if (layer.typename === 'LayerSet' && layer.layers) {
           _results.push(this.collect(layer.layers));
         } else {
           _results.push(void 0);
@@ -671,6 +674,7 @@ require.define("/barbershop.coffee",function(require,module,exports,__dirname,__
       this.input = input;
       this.trim = __bind(this.trim, this);
 
+      this.MUSTACHE_REGEX = /\{\{([^}]+)\}\}/gi;
       this.output = [];
       this.template = this.getTemplate();
       dataRows = this["import"]();
@@ -746,7 +750,11 @@ require.define("/barbershop.coffee",function(require,module,exports,__dirname,__
         if (Array.isArray(layer)) {
           _results.push(this.collect(layer));
         } else {
-          _results.push(this.textlayers.push(layer));
+          if (layer.match(this.MUSTACHE_REGEX)) {
+            _results.push(this.textlayers.push(layer));
+          } else {
+            _results.push(void 0);
+          }
         }
       }
       return _results;
@@ -763,7 +771,7 @@ require.define("/barbershop.coffee",function(require,module,exports,__dirname,__
       _ref1 = this.textlayers;
       for (counter = _i = 0, _len = _ref1.length; _i < _len; counter = ++_i) {
         layer = _ref1[counter];
-        contents = layer.replace(/\{\{([^}]+)\}\}/gi, this.trim);
+        contents = layer.replace(this.MUSTACHE_REGEX, this.trim);
         if (contents !== layer) {
           this.textlayers[counter] = contents;
         }

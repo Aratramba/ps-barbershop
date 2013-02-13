@@ -10,6 +10,8 @@ module.exports = class Barbershop
 
 	constructor: (@input) -> 
 
+		@MUSTACHE_REGEX = /\{\{([^}]+)\}\}/gi
+
 		# prepare output
 		@output = []
 
@@ -142,7 +144,12 @@ module.exports = class Barbershop
 
 			# find text layers in layergroup
 			else
-				@textlayers.push(layer)
+
+				# check if it is barbershoppable
+				if layer.match(@MUSTACHE_REGEX)
+
+					# add to textlayers
+					@textlayers.push(layer)
 
 
 
@@ -173,7 +180,7 @@ module.exports = class Barbershop
 		for layer,counter in @textlayers
 
 			# remove {{ }} and replace with json value
-			contents = layer.replace /\{\{([^}]+)\}\}/gi, @trim
+			contents = layer.replace @MUSTACHE_REGEX, @trim
 
 			# replace content only if something has changed
 			@textlayers[counter] = contents if contents isnt layer
