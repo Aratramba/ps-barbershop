@@ -145,11 +145,9 @@ module.exports = class Barbershop
 			# find text layers in layergroup
 			else
 
-				# check if it is barbershoppable
-				if layer.match(@MUSTACHE_REGEX)
-
-					# add to textlayers
-					@textlayers.push(layer)
+				# check if it is barbershoppable, if so: add
+				@textlayers.push(layer) if layer.match(@MUSTACHE_REGEX)
+					
 
 
 

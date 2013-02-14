@@ -1,0 +1,30 @@
+{
+	days: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+	activities: ['shave', 'cut', 'trim', 'blow dry', 'style', 'finish', 'line up', 'color', 'mustache', 'clean up'],
+	day: function(){
+
+		// set current date to next day, or first day
+		this.current = ++this.current || 0;
+
+		// return day
+		return this.days[this.current % 5];
+	},
+	todos: function(){
+
+		// pick number of todos
+		var items = Math.round(Math.random() * 6)+1;
+
+		// todos
+		var todos = [];
+
+		// find number of items
+		while(items--){
+
+			// pick an activity
+			todos.push(this.activities[Math.round(Math.random() * this.activities.length-1)])
+		}
+
+		// return array to string
+		return todos.join(', ')
+	}
+}

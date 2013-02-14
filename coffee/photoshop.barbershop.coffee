@@ -37,11 +37,9 @@ module.exports = class Barbershop.Photoshop extends Barbershop
 			# push text layers
 			if layer.kind is LayerKind.TEXT
 
-				# check if it is barbershoppable
-				if layer.textItem.contents.match(@MUSTACHE_REGEX)
-
-					# add to textlayers
-					@textlayers.push(layer)
+				# check if it is barbershoppable, if so: add
+				@textlayers.push(layer) if layer.textItem.contents.match(@MUSTACHE_REGEX)
+					
 
 
 			# find text layers in layergroup
