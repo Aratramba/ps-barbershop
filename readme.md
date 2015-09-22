@@ -1,4 +1,6 @@
 # Barbershop ##
+`tested on Photoshop CS3, CS4 and CS5`
+
 #### So you want to import dynamic data into your psd's? ####
 
 ![](https://raw.github.com/EightMedia/ps-barbershop/master/github/example.png)
